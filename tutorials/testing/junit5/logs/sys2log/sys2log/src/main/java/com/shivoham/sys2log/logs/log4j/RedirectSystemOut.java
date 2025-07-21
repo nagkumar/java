@@ -9,10 +9,10 @@ import java.io.PrintStream;
 
 public class RedirectSystemOut
 {
-    public static void main(String[] args)
+    public static void main(final String[] aArgs)
     {
-	Logger logger = LogManager.getLogger(RedirectSystemOut.class);
-	OutputStream outputStream = IoBuilder.forLogger(logger).buildOutputStream();
+	Logger lLogger = LogManager.getLogger(RedirectSystemOut.class);
+	OutputStream outputStream = IoBuilder.forLogger(lLogger).buildOutputStream();
 	System.setOut(new PrintStream(outputStream));
 	System.out.println("This message will be logged via Log4j2.");
     }
