@@ -1,6 +1,6 @@
 package com.shivoham.sys2log.first.tests;
 
-import com.shivoham.sys2log.first.SystemRedirectMain;
+import com.shivoham.sys2log.first.SErrRedirect;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class TestSystemErrorRedirect
+public class TestSErrRedirect
 {
     private final PrintStream originalSystemErr = System.err;
 
@@ -30,8 +30,8 @@ public class TestSystemErrorRedirect
     @Test
     void testSystemErrRedirection()
     {
-	SystemRedirectMain lSystemRedirectMain = new SystemRedirectMain();
-	lSystemRedirectMain.doSysErr();
+	SErrRedirect lSErrRedirect = new SErrRedirect();
+	lSErrRedirect.doSysErr();
 
 	String capturedOutput = outputStreamCaptor.toString().trim();
 

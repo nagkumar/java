@@ -1,4 +1,4 @@
-package com.shivoham.sys2log;
+package com.shivoham.sys2log.logs.log4j;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
