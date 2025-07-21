@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SystemOutRedirectTest
+public class TestSystemOutRedirect
 {
     private final PrintStream originalSystemOut = System.out;
 
