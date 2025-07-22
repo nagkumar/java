@@ -14,14 +14,14 @@ public final class AssertCounterInterceptor
     private static final ConcurrentHashMap<String, LongAdder> methodCallCounts = new ConcurrentHashMap<>();
 
     @RuntimeType
-    public static final Object intercept(@Origin Method method, @SuperCall Callable<?> zuper) throws Exception
+    public static final Object intercept(final @Origin Method aMethod, final @SuperCall Callable<?> aZuper) throws Exception
     {
-	if (method.getName().startsWith("assert"))
+	if (aMethod.getName().startsWith("assert"))
 	{
-	    String methodSignature = method.getDeclaringClass().getName() + "#" + method.getName();
+	    String methodSignature = aMethod.getDeclaringClass().getName() + "#" + aMethod.getName();
 	    methodCallCounts.computeIfAbsent(methodSignature, k -> new LongAdder()).increment();
 	}
-	return zuper.call();
+	return aZuper.call();
     }
 
     public static final long getTotalCount()
