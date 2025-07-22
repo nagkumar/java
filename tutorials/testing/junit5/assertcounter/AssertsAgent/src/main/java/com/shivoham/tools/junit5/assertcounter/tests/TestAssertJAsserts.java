@@ -8,7 +8,7 @@ public class TestAssertJAsserts
     @Test
     void assertJAssertionsLoop()
     {
-	for (int i = 1; i <= 3; i++)
+	for (int i = 1; i <= 30; i++)
 	{
 	    Assertions.assertThat(i).isGreaterThan(0);
 	    Assertions.assertThat(i).isNotNegative();

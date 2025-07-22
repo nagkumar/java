@@ -13,7 +13,7 @@ public class TestJUnit5Asserts
     @Test
     void junit5AssertionsLoop()
     {
-	for (int i = 1; i <= 3; i++)
+	for (int i = 1; i <= 23; i++)
 	{
 	    assertTrue(i > 0, "i should be positive");
 	    assertFalse(i < 0, "i should not be negative");
