@@ -25,4 +25,12 @@ tasks.test {
     }
 }
 
+<dependency>
+  <groupId>com.shivoham.tools.junit5.assertcounter</groupId>
+  <artifactId>asserts-agent</artifactId>
+  <version>1.0.0</version>
+</dependency>
+
 ```
+
+https://github.com/nagkumar/java/packages/2589016
