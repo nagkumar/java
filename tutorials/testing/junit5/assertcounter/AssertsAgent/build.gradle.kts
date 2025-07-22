@@ -31,6 +31,21 @@ java {
     }
 }
 
+sourceSets {
+    main {
+	java {
+	    srcDir("src")
+	    exclude("**/tests/**/*.java")
+	}
+    }
+    test {
+	java {
+	    srcDir("src")
+	    include("**/tests/**/*.java")
+	}
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
     val agentJarPath = tasks.jar.get().archiveFile.get().asFile.absolutePath
