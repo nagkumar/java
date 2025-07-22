@@ -36,8 +36,8 @@ public final class TestSOutRedirectLog4J2
 		   "Should print This message will be logged via Log4j2.");
     }
 
-    private static final boolean hasPartialMatch(List<String> aStringList, String aSubString)
+    private static final boolean hasPartialMatch(final List<String> aStringList, final String aSubString)
     {
-	return aStringList.stream().anyMatch(s -> s.contains(aSubString));
+	return aStringList.stream().anyMatch(s -> s.trim().contains(aSubString.trim()));
     }
 }
