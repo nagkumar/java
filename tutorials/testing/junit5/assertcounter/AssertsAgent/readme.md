@@ -1,0 +1,28 @@
+```
+
+repositories {
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/nagkumar/java")
+        credentials {
+        username =
+        System.getenv("GITHUB_ACTOR")
+        ?: "nagkumar"
+        password = System.getenv("GITHUB_TOKEN")
+    }
+}
+
+dependencies {
+    testImplementation("com.shivoham.tools.junit5.assertcounter:asserts-agent:1.0.0")
+}
+
+tasks.test {
+    useJUnitPlatform()
+    jvmArgumentProviders.add(CommandLineArgumentProvider {
+        var dd = configurations.testRuntimeClasspath.get().files.find {
+        it.name.contains("asserts-agent")
+        }
+    }
+}
+
+```
