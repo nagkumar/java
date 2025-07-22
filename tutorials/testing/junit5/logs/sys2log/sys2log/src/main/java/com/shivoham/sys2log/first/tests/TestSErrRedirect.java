@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class TestSErrRedirect
+public final class TestSErrRedirect
 {
     private final PrintStream originalSystemErr = System.err;
 
