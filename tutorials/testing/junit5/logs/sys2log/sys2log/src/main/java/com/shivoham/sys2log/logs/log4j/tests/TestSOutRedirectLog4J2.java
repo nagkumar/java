@@ -32,7 +32,7 @@ public final class TestSOutRedirectLog4J2
     public void redirect()
     {
 	new SOutRedirectLog4J2().doPrint();
-	assertTrue(hasPartialMatch(logCaptor.getLogs(), "This message will be logged via Log4j"),
+	assertTrue(hasPartialMatch(logCaptor.getLogs(), "This message will be logged via Log4j2."),
 		   "Should print This message will be logged via Log4j2.");
     }
 

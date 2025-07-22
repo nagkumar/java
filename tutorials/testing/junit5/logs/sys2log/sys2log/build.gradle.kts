@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    id("com.github.ben-manes.versions") version ("0.52.0")
+    id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
 group = "com.shivoham.sys2log"
