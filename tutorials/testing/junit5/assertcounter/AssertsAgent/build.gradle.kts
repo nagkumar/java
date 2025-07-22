@@ -7,22 +7,21 @@ plugins {
 }
 
 group = "com.shivoham.tools.junit5.assertcounter"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("net.bytebuddy:byte-buddy:1.14.5")
-    implementation("net.bytebuddy:byte-buddy-agent:1.14.5")
+    implementation("net.bytebuddy:byte-buddy:1.17.6")
+    implementation("net.bytebuddy:byte-buddy-agent:1.17.6")
 
-    implementation(platform("org.junit:junit-bom:6.0.0-M1"))
-    implementation("org.junit.jupiter:junit-jupiter")
-    implementation("org.junit.platform:junit-platform-launcher")
-
-    implementation("org.assertj:assertj-core:3.24.2")
-    implementation("org.hamcrest:hamcrest:2.2")
+    testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.assertj:assertj-core:4.0.0-M1")
+    testImplementation("org.hamcrest:hamcrest:3.0")
 }
 
 java {
