@@ -29,9 +29,14 @@ sourceSets {
 
 dependencies {
     implementation("org.slf4j:slf4j-api:2.1.0-alpha1")
+
     implementation("org.apache.logging.log4j:log4j-core:3.0.0-beta3")
-    implementation("org.apache.logging.log4j:log4j-api:3.0.0-beta2")
-    implementation("org.apache.logging.log4j:log4j-iostreams:3.0.0-beta2")
+    implementation("org.apache.logging.log4j:log4j-api:2.25.1")
+    implementation("org.apache.logging.log4j:log4j-iostreams:2.25.1")
+
+    //implementation("org.apache.logging.log4j:log4j-api:3.0.0-beta2")
+    //implementation("org.apache.logging.log4j:log4j-iostreams:3.0.0-beta2")
+
 
     //intellij does not support testImplementation for the test files within main folder, hence as work
     //around making the test jars part of main
