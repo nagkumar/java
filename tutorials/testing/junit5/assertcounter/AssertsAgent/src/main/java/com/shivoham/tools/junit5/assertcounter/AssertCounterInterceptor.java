@@ -36,7 +36,7 @@ public final class AssertCounterInterceptor
 
     public static final void printAssertsCountReport()
     {
-	System.out.println("=== Assert Method Usage Report ===");
+	System.out.println("=== Assert Method Usage Report ===\n");
 
 	methodCallCounts.entrySet().stream()
 			.sorted(Comparator.comparing(Map.Entry::getKey))

@@ -19,7 +19,8 @@ public final class AssertCountAgent
 				       .or(ElementMatchers.nameStartsWith("org.hamcrest")))
 		.and(ElementMatchers.not(
 			ElementMatchers.nameContains(".internal.")
-				       .or(ElementMatchers.nameStartsWith("com.shivoham.t"))
+				       .or(ElementMatchers.nameContains(".engine."))
+				       .or(ElementMatchers.nameStartsWith("com.shivoham."))
 				       .or(ElementMatchers.nameContains(".support."))))
 		.transform((bBuilder,
 			    bTypeDefinitions,
