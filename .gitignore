@@ -1,1 +1,3 @@
-/tutorials/testing/junit5/systemexit/junit5exit/.gradle/
+**/.gradle/
+**/.idea/
+**/build/
