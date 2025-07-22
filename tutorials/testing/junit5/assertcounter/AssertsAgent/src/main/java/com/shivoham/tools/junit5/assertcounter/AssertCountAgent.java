@@ -1,4 +1,4 @@
-package com.shivoham.tools.tests.junit5.assertcounter;
+package com.shivoham.tools.junit5.assertcounter;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.implementation.MethodDelegation;

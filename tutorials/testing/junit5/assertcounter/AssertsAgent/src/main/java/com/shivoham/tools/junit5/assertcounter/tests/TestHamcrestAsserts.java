@@ -1,4 +1,4 @@
-package com.shivoham.tools.tests.junit5.assertcounter.tests;
+package com.shivoham.tools.junit5.assertcounter.tests;
 
 import org.junit.jupiter.api.Test;
 

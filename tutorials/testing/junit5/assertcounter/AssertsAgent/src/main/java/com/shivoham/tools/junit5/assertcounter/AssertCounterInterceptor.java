@@ -1,4 +1,4 @@
-package com.shivoham.tools.tests.junit5.assertcounter;
+package com.shivoham.tools.junit5.assertcounter;
 
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
