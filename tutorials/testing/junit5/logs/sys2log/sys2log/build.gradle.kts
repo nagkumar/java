@@ -9,6 +9,21 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+	java {
+	    srcDir("src")
+	    exclude("**/tests/**/*.java")
+	}
+    }
+    test {
+	java {
+	    srcDir("src")
+	    include("**/tests/**/*.java")
+	}
+    }
+}
+
 dependencies {
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("org.apache.logging.log4j:log4j-core:2.25.1")
@@ -26,4 +41,21 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.withType<Test>().configureEach {
+    afterSuite(KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+								    if (desc.parent == null)
+								    {
+									println("🔍 Test Summary:")
+									println(" - ${result.testCount} tests executed")
+									println(
+									    " - ${result.successfulTestCount} succeeded")
+									println(" - ${result.failedTestCount} failed")
+									println(" - ${result.skippedTestCount} skipped")
+									println(
+									    "\nTest Report: file:///" + reports.html.entryPoint.absolutePath.replace(
+										File.separatorChar, '/'))
+								    }
+								}))
 }
