@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.shivoham.tools.junit5.assertcounter"
-version = "1.0.0"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ dependencies {
 
 java {
     toolchain {
-	languageVersion.set(JavaLanguageVersion.of(17))
+	languageVersion.set(JavaLanguageVersion.of(24))
     }
 }
 
