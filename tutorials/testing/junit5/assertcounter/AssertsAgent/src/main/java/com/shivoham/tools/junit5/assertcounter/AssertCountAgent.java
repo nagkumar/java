@@ -18,15 +18,15 @@ public final class AssertCountAgent
 				       .or(ElementMatchers.nameStartsWith("org.junit"))
 				       .or(ElementMatchers.nameStartsWith("org.hamcrest")))
 		.and(ElementMatchers.not(
-			ElementMatchers.nameContains(".internal."))) // <--- EXCLUDE .internal. packages
+			ElementMatchers.nameContains(".internal.")
+				       .or(ElementMatchers.nameContains(".support."))))
 		.transform((bBuilder,
 			    bTypeDefinitions,
 			    bClassLoader,
 			    bJavaModule,
 			    aProtectionDomain) ->
 				   bBuilder.method(ElementMatchers.nameStartsWith("assert"))
-					   .intercept(MethodDelegation.to(AssertCounterInterceptor.class))
-			  )
+					   .intercept(MethodDelegation.to(AssertCounterInterceptor.class)))
 		.installOn(aInstrumentation);
 
 	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printAssertsCountReport));

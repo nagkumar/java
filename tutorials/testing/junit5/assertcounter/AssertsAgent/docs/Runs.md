@@ -1,1 +1,2 @@
-gradle jar test
+gradle --rerun-tasks jar test
+gradle --rerun-tasks test
