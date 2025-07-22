@@ -5,17 +5,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 
-public class SOutRedirectSlf4j extends PrintStream
+public final class SOutRedirectSlf4j extends PrintStream
 {
     private static final PrintStream originalSystemOut = System.out;
     private static SOutRedirectSlf4j sOutRedirectSlf4j;
 
-    private String packageOrClassToLog;
+    private final String packageOrClassToLog;
 
-    private SOutRedirectSlf4j(PrintStream original, String packageOrClassToLog)
+    private SOutRedirectSlf4j(PrintStream original, String aPackageOrClassToLog)
     {
 	super(original);
-	this.packageOrClassToLog = packageOrClassToLog;
+	packageOrClassToLog = aPackageOrClassToLog;
     }
 
     @Override

@@ -14,6 +14,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:2.25.1")
     implementation("org.apache.logging.log4j:log4j-api:2.25.1")
     implementation("org.apache.logging.log4j:log4j-iostreams:2.25.1")
+    implementation("io.github.hakky54:logcaptor:2.11.0")
 
     implementation(platform("org.junit:junit-bom:5.11.0"))
     implementation("org.junit.jupiter:junit-jupiter")
