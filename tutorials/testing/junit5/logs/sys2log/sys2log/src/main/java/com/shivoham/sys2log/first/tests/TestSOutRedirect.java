@@ -13,7 +13,6 @@ public class TestSOutRedirect
 {
     private final PrintStream originalSystemOut = System.out;
 
-
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
