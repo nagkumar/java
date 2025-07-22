@@ -34,3 +34,5 @@ tasks.test {
 ```
 
 https://github.com/nagkumar/java/packages/2589016
+
+how to make sure publish of github takes this file to display about the library???
