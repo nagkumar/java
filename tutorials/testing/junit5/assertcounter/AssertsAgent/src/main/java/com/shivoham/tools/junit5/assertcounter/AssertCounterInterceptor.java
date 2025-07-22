@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 
-public class AssertCounterInterceptor
+public final class AssertCounterInterceptor
 {
     private static final ConcurrentHashMap<String, LongAdder> methodCallCounts = new ConcurrentHashMap<>();
 
