@@ -9,4 +9,7 @@ Show 3 ways to do it
 3. SL4j way
 
 Think yourself as worlds best technical author who is understood as the most simplisit, best presenter to simplify techhnical conpcet
-Make sure this article on medium and further posted on linkedin receives best likes, most interactive comments
+Make sure this article on DZone, medium and further posted on linkedin receives best likes, most interactive comments
+
+Say More working https://github.com/nagkumar/java/tree/main/tutorials/testing/junit5/logs/sys2log/sys2log
+Say at the end come to #CodeDoctors who are specialists in dealing with testablity, maintanability of legacy code i.e. self promote
