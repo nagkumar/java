@@ -2,7 +2,7 @@ package com.shivoham.sys2log.logs.slf4j;
 
 public final class SOutRedirectSLF4J
 {
-    public void run(boolean succeed)
+    public final void run(boolean succeed)
     {
 	if (succeed)
 	{
