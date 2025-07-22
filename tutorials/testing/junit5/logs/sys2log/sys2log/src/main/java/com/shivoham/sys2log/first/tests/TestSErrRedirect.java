@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 public final class TestSErrRedirect
 {
-    private final PrintStream originalSystemErr = System.err;
+    private  static final PrintStream originalSystemErr = System.err;
 
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
