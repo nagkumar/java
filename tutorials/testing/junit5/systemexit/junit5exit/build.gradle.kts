@@ -33,8 +33,7 @@ tasks.test {
 
     jvmArgs(
 	"--add-opens", "java.base/java.lang=ALL-UNNAMED",
-	"--add-opens", "java.base/java.io=ALL-UNNAMED"
-	   )
+	"--add-opens", "java.base/java.io=ALL-UNNAMED")
 
     testLogging {
 	exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
