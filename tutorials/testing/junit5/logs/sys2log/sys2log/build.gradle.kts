@@ -34,7 +34,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-iostreams:3.0.0-beta2")
 
     //intellij does not support testImplementation for the test files within main folder, hence as work
-    //arround making the test jars part of main
+    //around making the test jars part of main
     implementation(platform("org.junit:junit-bom:6.0.0-M1"))
     implementation("org.junit.jupiter:junit-jupiter")
     implementation("org.junit.platform:junit-platform-launcher")
