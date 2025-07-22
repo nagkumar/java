@@ -54,7 +54,7 @@ tasks.test {
 
 tasks.jar {
     manifest {
-	attributes("Premain-Class" to "com.shivoham.tools.tests.junit5.assertcounter",
+	attributes("Premain-Class" to "com.shivoham.tools.junit5.assertcounter.AssertCountAgent",
 		   "Can-Redefine-Classes" to "true",
 		   "Can-Retransform-Classes" to "true")
     }
