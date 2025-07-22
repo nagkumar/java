@@ -78,23 +78,24 @@ tasks.withType<Test>().configureEach {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-
-            groupId = "com.shivoham.tools.junit5.assertcounter"
-            artifactId = "asserts-agent"
-            version = "1.0.0"
-        }
-    }
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/shivoham-tools/junit5-assertcounter")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")?: "nagkumar"
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
+	maven {
+	    name = "GitHubPackages"
+	    url = uri("https://maven.pkg.github.com/nagkumar/java")
+	    credentials {
+		username =
+		    System.getenv("GITHUB_ACTOR")
+		    ?: "nagkumar"
+		password = System.getenv("GITHUB_TOKEN")
+	    }
+	}
+    }
+    publications {
+	create<MavenPublication>("mavenJava") {
+	    from(components["java"])
+	    groupId = "com.shivoham.tools.junit5.assertcounter"
+	    artifactId = "asserts-agent"
+	    version = "1.0.0"
+	}
     }
 }
