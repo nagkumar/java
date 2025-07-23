@@ -1,5 +1,6 @@
 package com.shivoham.tools.junit5.assertcounter;
 
+import com.shivoham.tools.junit5.assertcounter.cfgs.AgentCFG;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -7,6 +8,7 @@ import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,37 +21,63 @@ public final class AssertCounterInterceptor
 {
     private static final ConcurrentHashMap<String, LongAdder> methodCallCounts = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, List<String>> argumentLog = new ConcurrentHashMap<>();
+    private static AgentCFG config; // Field to hold the configuration
+
+    /**
+     * Sets the configuration for the interceptor. This is called from the agent's premain.
+     *
+     * @param aAgentConfig The configuration loaded by the agent.
+     */
+    public static void setConfig(final AgentCFG aAgentConfig)
+    {
+	config = aAgentConfig;
+    }
 
     @RuntimeType
-    public static final Object intercept(
-	    @Origin Method aMethod,
-	    @AllArguments Object[] aArgs,
-	    @SuperCall Callable<?> aZuper) throws Exception
+    public static Object intercept(
+	    @Origin final Method aMethod,
+	    @AllArguments final Object[] aArgs,
+	    @SuperCall final Callable<?> aZuper) throws Exception
     {
+
 	if (aMethod.getName().startsWith("assert"))
 	{
-	    String methodSignature = aMethod.getDeclaringClass().getName() + "#" + aMethod.getName();
+	    final String methodSignature = aMethod.getDeclaringClass().getName() + "#" + aMethod.getName();
+
+	    // Always count the method call
 	    methodCallCounts.computeIfAbsent(methodSignature, k -> new LongAdder()).increment();
 
-	    // Collect argument details
-	    String formattedArgs = formatArgs(aArgs);
-	    argumentLog.computeIfAbsent(methodSignature, k -> Collections.synchronizedList(new ArrayList<>()))
-		       .add(formattedArgs);
+	    // Conditionally collect argument details only if enabled, for performance
+	    if (config != null && config.shouldPrintArgs())
+	    {
+		final String formattedArgs = formatArgs(aArgs);
+		argumentLog.computeIfAbsent(methodSignature, k -> Collections.synchronizedList(new ArrayList<>()))
+			   .add(formattedArgs);
+	    }
 	}
 
 	return aZuper.call();
     }
 
-    private static final String formatArgs(final Object[] aArgs)
+    private static String formatArgs(final Object[] aArgs)
     {
 	if (aArgs == null || aArgs.length == 0)
 	{
 	    return "[]";
 	}
-	StringBuilder sb = new StringBuilder("[");
-	for (Object arg : aArgs)
+	final StringBuilder sb = new StringBuilder("[");
+	for (final Object arg : aArgs)
 	{
-	    sb.append(arg == null ? "null" : arg.toString()).append(", ");
+	    // Added a check for arrays to print them more nicely
+	    if (arg instanceof Object[])
+	    {
+		sb.append(Arrays.toString((Object[]) arg));
+	    }
+	    else
+	    {
+		sb.append(arg == null ? "null" : arg.toString());
+	    }
+	    sb.append(", ");
 	}
 	if (aArgs.length > 0)
 	{
@@ -59,28 +87,32 @@ public final class AssertCounterInterceptor
 	return sb.toString();
     }
 
-    public static final long getTotalCount()
+    public static long getTotalCount()
     {
 	return methodCallCounts.values().stream()
 			       .mapToLong(LongAdder::sum)
 			       .sum();
     }
 
-    public static final void printReport()
+    public static void printReport()
     {
-	System.out.println("=== Assert Method Usage Report (Sorted by Package) ===\n");
+	System.out.println("\n=== Assert Method Usage Report (Sorted by Package) ===\n");
 
 	methodCallCounts.entrySet().stream()
 			.sorted(Comparator.comparing(Map.Entry::getKey))
 			.forEach(entry -> {
-			    String method = entry.getKey();
-			    long count = entry.getValue().longValue();
-			    System.out.printf("%-60s : %d%n", method, count);
+			    final String method = entry.getKey();
+			    final long count = entry.getValue().longValue();
+			    System.out.printf("%-70s : %d%n", method, count);
 
-			    List<String> argsList = argumentLog.getOrDefault(method, Collections.emptyList());
-			    for (String args : argsList)
+			    // Conditionally print arguments based on config
+			    if (config != null && config.shouldPrintArgs())
 			    {
-				System.out.printf("    → %s%n", args);
+				final List<String> argsList = argumentLog.getOrDefault(method, Collections.emptyList());
+				for (final String args : argsList)
+				{
+				    System.out.printf("    → %s%n", args);
+				}
 			    }
 			});
 

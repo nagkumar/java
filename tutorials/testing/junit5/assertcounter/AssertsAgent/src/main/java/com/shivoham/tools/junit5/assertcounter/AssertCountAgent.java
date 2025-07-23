@@ -1,36 +1,58 @@
 package com.shivoham.tools.junit5.assertcounter;
 
+import com.shivoham.tools.junit5.assertcounter.cfgs.AgentCFG;
 import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 
 import java.lang.instrument.Instrumentation;
 
 public final class AssertCountAgent
 {
-    public static void premain(final String aAgentArgs, final Instrumentation aInstrumentation)
+    public static final void premain(final String aAgentArgs, final Instrumentation aInstrumentation)
     {
+	// 1. Initialize configuration from all sources (reference.conf, reference.conf, etc.)
+	final AgentCFG config = new AgentCFG();
+	AssertCounterInterceptor.setConfig(config);
+
+	System.out.println("✅ AssertCounterAgent activated. Argument printing: " + config.shouldPrintArgs());
+
+	// 2. Build matchers dynamically from the configuration
+	final ElementMatcher.Junction<TypeDescription> typeMatcher = buildTypeMatcher(config);
+
 	new AgentBuilder.Default()
-		.type(
-			ElementMatchers.nameEndsWith("Assertions")
-				       .or(ElementMatchers.nameContainsIgnoreCase("Assert"))
-				       .or(ElementMatchers.nameStartsWith("org.assertj"))
-				       .or(ElementMatchers.nameStartsWith("org.junit"))
-				       .or(ElementMatchers.nameStartsWith("org.hamcrest")))
-		.and(ElementMatchers.not(
-			ElementMatchers.nameContains(".internal.")
-				       .or(ElementMatchers.nameContains(".engine."))
-				       .or(ElementMatchers.nameStartsWith("com.shivoham."))
-				       .or(ElementMatchers.nameContains(".support."))))
-		.transform((bBuilder,
-			    bTypeDefinitions,
-			    bClassLoader,
-			    bJavaModule,
-			    aProtectionDomain) ->
+		.type(typeMatcher)
+		.transform((bBuilder, bTypeDescription, bClassLoader, bJavaModule, aProtectionDomain) ->
 				   bBuilder.method(ElementMatchers.nameStartsWith("assert"))
 					   .intercept(MethodDelegation.to(AssertCounterInterceptor.class)))
 		.installOn(aInstrumentation);
 
 	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printReport));
+    }
+
+    private static ElementMatcher.Junction<TypeDescription> buildTypeMatcher(final AgentCFG aConfig)
+    {
+	ElementMatcher.Junction<TypeDescription> includeMatcher = ElementMatchers.none();
+	for (final String include : aConfig.getIncludes())
+	{
+	    if (include.startsWith("org.") || include.startsWith("com."))
+	    {
+		includeMatcher = includeMatcher.or(ElementMatchers.nameStartsWith(include));
+	    }
+	    else
+	    {
+		includeMatcher = includeMatcher.or(ElementMatchers.nameContainsIgnoreCase(include));
+	    }
+	}
+
+	ElementMatcher.Junction<TypeDescription> excludeMatcher = ElementMatchers.none();
+	for (final String exclude : aConfig.getExcludes())
+	{
+	    excludeMatcher = excludeMatcher.or(ElementMatchers.nameContains(exclude));
+	}
+
+	return includeMatcher.and(ElementMatchers.not(excludeMatcher));
     }
 }

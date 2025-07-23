@@ -25,6 +25,10 @@ sourceSets {
 	    srcDir("src")
 	    exclude("**/tests/**/*.java")
 	}
+	resources {
+	    srcDir("src/main/resources")
+	    include("**/*.conf")
+	}
     }
     test {
 	java {
@@ -35,6 +39,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation("com.typesafe:config:1.4.3")
     implementation("net.bytebuddy:byte-buddy:1.17.6")
     implementation("net.bytebuddy:byte-buddy-agent:1.17.6")
     implementation("org.ow2.asm:asm:9.8") //fix to bug https://github.com/tginsberg/junit5-system-exit/issues/34
@@ -117,6 +122,10 @@ tasks.named("publish") {
     doLast {
 	println("View it at: https://github.com/nagkumar/java/packages/2589016")
     }
+}
+
+tasks.named<ProcessResources>("processResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 defaultTasks("clean", "build", "publish")
