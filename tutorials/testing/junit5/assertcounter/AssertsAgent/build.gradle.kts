@@ -55,8 +55,7 @@ tasks.test {
 tasks.jar {
     manifest {
 	attributes("Premain-Class" to "com.shivoham.tools.junit5.assertcounter.AssertCountAgent",
-		   "Can-Redefine-Classes" to "true",
-		   "Can-Retransform-Classes" to "true")
+		   "Can-Redefine-Classes" to "true", "Can-Retransform-Classes" to "true")
     }
 }
 
@@ -97,20 +96,19 @@ publishing {
     }
     publications {
 	create<MavenPublication>("mavenJava") {
-	    from(components["java"])
 	    artifactId = "asserts-agent"
+	    from(components["java"])
+	    artifact("docs/README.md")
 	}
 
-	println("\nhttps://github.com/nagkumar/java/packages/2589016")
-    }
-
-    publications {
 	withType<MavenPublication>().configureEach {
 	    println("Publication: ${name}")
 	    artifacts.forEach {
-		println("  Artifact: ${it.file.name}")
+		println("\tArtifact: ${it.file.name}")
 	    }
 	}
+
+	println("View it at: https://github.com/nagkumar/java/packages/2589016")
     }
 }
 
