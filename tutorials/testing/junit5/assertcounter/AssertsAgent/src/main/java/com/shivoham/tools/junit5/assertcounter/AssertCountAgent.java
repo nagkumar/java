@@ -31,6 +31,6 @@ public final class AssertCountAgent
 					   .intercept(MethodDelegation.to(AssertCounterInterceptor.class)))
 		.installOn(aInstrumentation);
 
-	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printAssertsCountReport));
+	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printReport));
     }
 }
