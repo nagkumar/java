@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.shivoham.tools.junit5.assertcounter"
-version = "1.0.2"
+version = "1.0.6-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -77,6 +77,10 @@ tasks.withType<Test>().configureEach {
 								}))
 }
 
+tasks.named("publish") {
+    outputs.upToDateWhen { false }
+}
+
 publishing {
     repositories {
 	maven {
@@ -88,6 +92,7 @@ publishing {
 		    ?: "nagkumar"
 		password = System.getenv("GITHUB_TOKEN")
 	    }
+	    println("\nPublishing to: $url")
 	}
     }
     publications {
@@ -95,5 +100,18 @@ publishing {
 	    from(components["java"])
 	    artifactId = "asserts-agent"
 	}
+
+	println("\nhttps://github.com/nagkumar/java/packages/2589016")
+    }
+
+    publications {
+	withType<MavenPublication>().configureEach {
+	    println("Publication: ${name}")
+	    artifacts.forEach {
+		println("  Artifact: ${it.file.name}")
+	    }
+	}
     }
 }
+
+defaultTasks("clean", "build", "publish")
