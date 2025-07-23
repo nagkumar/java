@@ -107,13 +107,6 @@ publishing {
 		extension = "md"
 	    }
 	}
-
-	withType<MavenPublication>().configureEach {
-	    println("Publication: ${name}")
-	    artifacts.forEach {
-		println("\tArtifact: ${it.file.name}")
-	    }
-	}
     }
 }
 
