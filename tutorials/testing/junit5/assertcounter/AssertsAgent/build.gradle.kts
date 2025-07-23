@@ -96,7 +96,6 @@ publishing {
 		    ?: "nagkumar"
 		password = System.getenv("GITHUB_TOKEN")
 	    }
-	    println("\nPublishing to: $url")
 	}
     }
     publications {
@@ -112,6 +111,18 @@ publishing {
 	withType<MavenPublication>().configureEach {
 	    println("Publication: ${name}")
 	    artifacts.forEach {
+		println("\tArtifact: ${it.file.name}")
+	    }
+	}
+    }
+}
+
+tasks.withType<PublishToMavenRepository>().configureEach {
+    doFirst {
+	println("\nPublishing to GitHub Packages...")
+	publishing.publications.withType<MavenPublication>().forEach { pub ->
+	    println("Publication: ${pub.name}")
+	    pub.artifacts.forEach {
 		println("\tArtifact: ${it.file.name}")
 	    }
 	}
