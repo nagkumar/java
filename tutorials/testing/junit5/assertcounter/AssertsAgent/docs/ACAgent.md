@@ -2,7 +2,6 @@ java -javaagent:assert-counter-agent.jar -jar junit-platform-console-standalone.
 
 tasks.test {
 useJUnitPlatform()
-
     // Adjust the path as per your actual location
     val agentPath = "${rootDir}/libs/assert-counter-agent.jar"
 
@@ -12,5 +11,4 @@ useJUnitPlatform()
     doLast {
         println("You can check logs/output for total assert count")
     }
-
 }
