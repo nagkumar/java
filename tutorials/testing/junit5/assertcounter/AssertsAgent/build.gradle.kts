@@ -98,7 +98,10 @@ publishing {
 	create<MavenPublication>("mavenJava") {
 	    artifactId = "asserts-agent"
 	    from(components["java"])
-	    artifact("docs/README.md")
+	    artifact("docs/artifacts/README.md") {
+		classifier = "README"
+		extension = "md"
+	    }
 	}
 
 	withType<MavenPublication>().configureEach {
@@ -107,7 +110,11 @@ publishing {
 		println("\tArtifact: ${it.file.name}")
 	    }
 	}
+    }
+}
 
+tasks.named("publish") {
+    doLast {
 	println("View it at: https://github.com/nagkumar/java/packages/2589016")
     }
 }
