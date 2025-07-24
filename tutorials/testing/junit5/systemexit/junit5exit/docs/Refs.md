@@ -3,7 +3,7 @@ https://github.com/tginsberg/junit5-system-exit/issues/34
 https://www.linkedin.com/in/tginsberg/
 https://github.com/nagkumar/junit5exit_hw
 
-Not sure if maintained well as the last commit is around a year ago as of July 2025
+Author active to make changes as checked as on July 2025
 
 Works in JDK17,21,23 too
 
