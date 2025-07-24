@@ -1,3 +1,4 @@
+
 Think yourself as worlds best technical author who is understood as the most simplisit, best presenter to simplify techhnical conpcet
 
 Make sure this article on DZone, medium and further posted on linkedin receives best likes, most interactive comments
@@ -13,3 +14,4 @@ Say at the end come to #CodeDoctors who are specialists in dealing with testabli
 
 to run the project say use gradle jar tests
 
+The article for this is written and published at https://medium.com/@nagendra.raja/your-junit-tests-are-lying-to-you-ccda6970b5bc
