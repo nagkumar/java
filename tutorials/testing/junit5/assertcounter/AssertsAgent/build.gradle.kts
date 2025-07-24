@@ -1,13 +1,13 @@
-buildscript {
-    repositories {
-	maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-    }
-    dependencies {
-	classpath("com.vanniktech:gradle-code-quality-tools-plugin:0.25.0-SNAPSHOT")
-    }
-}
+//buildscript {
+//    repositories {
+//	maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+//    }
+//    dependencies {
+//	classpath("com.vanniktech:gradle-code-quality-tools-plugin:0.25.0-SNAPSHOT")
+//    }
+//}
 
-apply(plugin = "com.vanniktech.code.quality.tools")
+//apply(plugin = "com.vanniktech.code.quality.tools")
 
 plugins {
     java
