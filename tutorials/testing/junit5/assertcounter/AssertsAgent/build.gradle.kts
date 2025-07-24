@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+	maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+    }
+    dependencies {
+	classpath("com.vanniktech:gradle-code-quality-tools-plugin:0.25.0-SNAPSHOT")
+    }
+}
+
+apply(plugin = "com.vanniktech.code.quality.tools")
+
 plugins {
     java
     `maven-publish`
@@ -5,6 +16,7 @@ plugins {
     id("com.github.ben-manes.versions") version ("0.52.0")
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
+
 
 group = "com.shivoham.tools.junit5.assertcounter"
 version = "1.0.7-SNAPSHOT"
