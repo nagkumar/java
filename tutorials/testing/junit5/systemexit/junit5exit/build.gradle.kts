@@ -69,3 +69,5 @@ tasks.withType<Test>().configureEach {
 							     }
 							 }))
 }
+
+defaultTasks("clean", "build")
