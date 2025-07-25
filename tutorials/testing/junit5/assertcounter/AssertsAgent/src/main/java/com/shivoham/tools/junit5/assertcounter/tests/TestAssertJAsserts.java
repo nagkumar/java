@@ -3,7 +3,7 @@ package com.shivoham.tools.junit5.assertcounter.tests;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TestAssertJAsserts
+public final class TestAssertJAsserts
 {
     @Test
     void assertJAssertionsLoop()

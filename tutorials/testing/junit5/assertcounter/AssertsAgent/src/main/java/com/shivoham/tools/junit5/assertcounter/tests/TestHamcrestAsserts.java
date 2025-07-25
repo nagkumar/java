@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class TestHamcrestAsserts
+public final class TestHamcrestAsserts
 {
     @Test
     void hamcrestAssertionsLoop()

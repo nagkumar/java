@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestJUnit5Asserts
+public final class TestJUnit5Asserts
 {
     @Test
     void junit5AssertionsLoop()
