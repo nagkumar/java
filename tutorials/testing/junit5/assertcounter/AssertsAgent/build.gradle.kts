@@ -20,7 +20,7 @@ plugins {
 }
 
 group = "com.shivoham.tools.junit5.assertcounter"
-version = "1.0.7-SNAPSHOT"
+version = "1.0.8-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ repositories {
 
 java {
     toolchain {
-	languageVersion.set(JavaLanguageVersion.of(24))
+	languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -67,7 +67,7 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
     val agentJarPath = tasks.jar.get().archiveFile.get().asFile.absolutePath
-    jvmArgs("-javaagent:$agentJarPath", "-Dnet.bytebuddy.safe=true")
+    jvmArgs("-javaagent:$agentJarPath")
 }
 
 tasks.jar {
@@ -144,5 +144,7 @@ tasks.named("publish") {
 tasks.named<ProcessResources>("processResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
+
+//defaultTasks("clean", "build")
 
 defaultTasks("clean", "build", "publish")

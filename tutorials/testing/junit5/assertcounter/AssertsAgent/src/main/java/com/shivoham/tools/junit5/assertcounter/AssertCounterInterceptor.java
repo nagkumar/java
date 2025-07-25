@@ -21,13 +21,8 @@ public final class AssertCounterInterceptor
 {
     private static final ConcurrentHashMap<String, LongAdder> methodCallCounts = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, List<String>> argumentLog = new ConcurrentHashMap<>();
-    private static AgentCFG config; // Field to hold the configuration
+    private static AgentCFG config;
 
-    /**
-     * Sets the configuration for the interceptor. This is called from the agent's premain.
-     *
-     * @param aAgentConfig The configuration loaded by the agent.
-     */
     public static void setConfig(final AgentCFG aAgentConfig)
     {
 	config = aAgentConfig;
@@ -39,24 +34,51 @@ public final class AssertCounterInterceptor
 	    @AllArguments final Object[] aArgs,
 	    @SuperCall final Callable<?> aZuper) throws Exception
     {
-
 	if (aMethod.getName().startsWith("assert"))
 	{
 	    final String methodSignature = aMethod.getDeclaringClass().getName() + "#" + aMethod.getName();
-
-	    // Always count the method call
 	    methodCallCounts.computeIfAbsent(methodSignature, k -> new LongAdder()).increment();
 
-	    // Conditionally collect argument details only if enabled, for performance
+	    String callerInfo = getCallerInfo();
+
 	    if (config != null && config.shouldPrintArgs())
 	    {
 		final String formattedArgs = formatArgs(aArgs);
+		String logEntry = formattedArgs + " @ " + callerInfo;
 		argumentLog.computeIfAbsent(methodSignature, k -> Collections.synchronizedList(new ArrayList<>()))
-			   .add(formattedArgs);
+			   .add(logEntry);
 	    }
 	}
 
 	return aZuper.call();
+    }
+
+    private static String getCallerInfo() {
+	StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+	boolean foundAssert = false;
+	for (StackTraceElement ste : stackTrace) {
+	    String className = ste.getClassName();
+	    // Skip interceptor, ByteBuddy, and JDK/internal classes
+	    if (className.equals(AssertCounterInterceptor.class.getName())
+		|| className.startsWith("net.bytebuddy.")
+		|| className.startsWith("java.")
+		|| className.startsWith("sun.")
+		|| className.startsWith("jdk.")) {
+		continue;
+	    }
+	    // Skip known assertion classes
+	    if (className.startsWith("org.junit.jupiter.api.Assertions")
+		|| className.startsWith("org.junit.Assert")
+		|| className.startsWith("org.testng.Assert")) {
+		foundAssert = true;
+		continue;
+	    }
+	    // Return the first frame after assertion class
+	    if (foundAssert) {
+		return ste.getClassName() + "(" + ste.getFileName() + ":" + ste.getLineNumber() + ")";
+	    }
+	}
+	return "unknown";
     }
 
     private static String formatArgs(final Object[] aArgs)
@@ -68,7 +90,6 @@ public final class AssertCounterInterceptor
 	final StringBuilder sb = new StringBuilder("[");
 	for (final Object arg : aArgs)
 	{
-	    // Added a check for arrays to print them more nicely
 	    if (arg instanceof Object[])
 	    {
 		sb.append(Arrays.toString((Object[]) arg));
@@ -81,7 +102,7 @@ public final class AssertCounterInterceptor
 	}
 	if (aArgs.length > 0)
 	{
-	    sb.setLength(sb.length() - 2); // remove last comma
+	    sb.setLength(sb.length() - 2);
 	}
 	sb.append("]");
 	return sb.toString();
@@ -105,7 +126,6 @@ public final class AssertCounterInterceptor
 			    final long count = entry.getValue().longValue();
 			    System.out.printf("%-70s : %d%n", method, count);
 
-			    // Conditionally print arguments based on config
 			    if (config != null && config.shouldPrintArgs())
 			    {
 				final List<String> argsList = argumentLog.getOrDefault(method, Collections.emptyList());
