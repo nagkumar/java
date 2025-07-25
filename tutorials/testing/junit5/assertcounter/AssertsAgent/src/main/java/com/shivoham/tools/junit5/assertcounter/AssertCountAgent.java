@@ -22,26 +22,32 @@ public final class AssertCountAgent
 	// 2. Build matchers dynamically from the configuration
 	final ElementMatcher.Junction<TypeDescription> typeMatcher = buildTypeMatcher(config);
 
-	new AgentBuilder.Default()
-		.type(typeMatcher)
-		.transform((bBuilder, bTypeDescription, bClassLoader, bJavaModule, aProtectionDomain) ->
-				   bBuilder.method(ElementMatchers.nameStartsWith("assert"))
-					   .intercept(MethodDelegation.to(AssertCounterInterceptor.class)))
-		.installOn(aInstrumentation);
+	new AgentBuilder.Default().type(typeMatcher)
+				  .transform(
+					  (bBuilder, bTypeDescription, bClassLoader, bJavaModule, aProtectionDomain) -> bBuilder.method(
+																	ElementMatchers.nameStartsWith("assert"))
+																.intercept(
+																	MethodDelegation.to(
+																		AssertCounterInterceptor.class)))
+				  .installOn(aInstrumentation);
 
 	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printReport));
     }
 
     private static final ElementMatcher.Junction<TypeDescription> buildTypeMatcher(final AgentCFG aConfig)
     {
-	ElementMatcher.Junction<TypeDescription> includeMatcher = aConfig.getIncludes().stream()
-									 .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
-									 .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
+	ElementMatcher.Junction<TypeDescription> lIncludeMatcher =
+		aConfig.getIncludes()
+		       .stream()
+		       .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+		       .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
-	ElementMatcher.Junction<TypeDescription> excludeMatcher = aConfig.getExcludes().stream()
-									 .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
-									 .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
+	ElementMatcher.Junction<TypeDescription> lExcludeMatcher =
+		aConfig.getExcludes()
+		       .stream()
+		       .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+		       .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
-	return includeMatcher.and(ElementMatchers.not(excludeMatcher));
+	return lIncludeMatcher.and(ElementMatchers.not(lExcludeMatcher));
     }
 }
