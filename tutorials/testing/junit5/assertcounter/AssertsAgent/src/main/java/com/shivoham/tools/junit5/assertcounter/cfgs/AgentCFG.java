@@ -32,16 +32,16 @@ public final class AgentCFG
     // --- Getters ---
     public List<String> getIncludes()
     {
-	return this.includes;
+	return includes;
     }
 
     public List<String> getExcludes()
     {
-	return this.excludes;
+	return excludes;
     }
 
     public boolean shouldPrintArgs()
     {
-	return this.printArgs;
+	return printArgs;
     }
 }
