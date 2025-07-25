@@ -29,10 +29,9 @@ public final class AssertCounterInterceptor
     }
 
     @RuntimeType
-    public static Object intercept(
-	    @Origin final Method aMethod,
-	    @AllArguments final Object[] aArgs,
-	    @SuperCall final Callable<?> aZuper) throws Exception
+    public static Object intercept(@Origin final Method aMethod,
+				   @AllArguments final Object[] aArgs,
+				   @SuperCall final Callable<?> aZuper) throws Exception
     {
 	if (aMethod.getName().startsWith("assert"))
 	{
@@ -53,28 +52,33 @@ public final class AssertCounterInterceptor
 	return aZuper.call();
     }
 
-    private static String getCallerInfo() {
+    private static String getCallerInfo()
+    {
 	StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 	boolean foundAssert = false;
-	for (StackTraceElement ste : stackTrace) {
+	for (StackTraceElement ste : stackTrace)
+	{
 	    String className = ste.getClassName();
 	    // Skip interceptor, ByteBuddy, and JDK/internal classes
 	    if (className.equals(AssertCounterInterceptor.class.getName())
 		|| className.startsWith("net.bytebuddy.")
 		|| className.startsWith("java.")
 		|| className.startsWith("sun.")
-		|| className.startsWith("jdk.")) {
+		|| className.startsWith("jdk."))
+	    {
 		continue;
 	    }
 	    // Skip known assertion classes
 	    if (className.startsWith("org.junit.jupiter.api.Assertions")
 		|| className.startsWith("org.junit.Assert")
-		|| className.startsWith("org.testng.Assert")) {
+		|| className.startsWith("org.testng.Assert"))
+	    {
 		foundAssert = true;
 		continue;
 	    }
 	    // Return the first frame after assertion class
-	    if (foundAssert) {
+	    if (foundAssert)
+	    {
 		return ste.getClassName() + "(" + ste.getFileName() + ":" + ste.getLineNumber() + ")";
 	    }
 	}
