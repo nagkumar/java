@@ -32,25 +32,18 @@ public final class AssertCountAgent
 	Runtime.getRuntime().addShutdownHook(new Thread(AssertCounterInterceptor::printReport));
     }
 
-    private static ElementMatcher.Junction<TypeDescription> buildTypeMatcher(final AgentCFG aConfig)
+    private static final ElementMatcher.Junction<TypeDescription> buildTypeMatcher(final AgentCFG aConfig)
     {
 	ElementMatcher.Junction<TypeDescription> includeMatcher = ElementMatchers.none();
 	for (final String include : aConfig.getIncludes())
 	{
-	    if (include.startsWith("org.") || include.startsWith("com."))
-	    {
-		includeMatcher = includeMatcher.or(ElementMatchers.nameStartsWith(include));
-	    }
-	    else
-	    {
-		includeMatcher = includeMatcher.or(ElementMatchers.nameContainsIgnoreCase(include));
-	    }
+	    includeMatcher = includeMatcher.or(ElementMatchers.nameContainsIgnoreCase(include));
 	}
 
 	ElementMatcher.Junction<TypeDescription> excludeMatcher = ElementMatchers.none();
 	for (final String exclude : aConfig.getExcludes())
 	{
-	    excludeMatcher = excludeMatcher.or(ElementMatchers.nameContains(exclude));
+	    excludeMatcher = excludeMatcher.or(ElementMatchers.nameContainsIgnoreCase(exclude));
 	}
 
 	return includeMatcher.and(ElementMatchers.not(excludeMatcher));
