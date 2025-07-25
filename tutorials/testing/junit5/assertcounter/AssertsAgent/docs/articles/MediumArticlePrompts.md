@@ -1,9 +1,9 @@
 
-Think yourself as world's best technical author who is understood as the simplest, best presenter to simplify technical conpcet
+Think yourself as world's best technical author who is understood as the simplest, best presenter to simplify technical concept
 
 Make sure this article on DZone, medium and further posted on LinkedIn receives best likes, most interactive comments
 
-Wrie a DZone Format Tech Article, that talks about JUnit limitation since inception including in Junit 5
+Write a DZone Format Tech Article, that talks about JUnit limitation since inception including in Junit 5
 that it counts test cases, however most put empty testcases not asserts, hence the need for assert counter
 which can be achieved with ease writing an agent where that does byte level wrapper that counts each assert when executed
 

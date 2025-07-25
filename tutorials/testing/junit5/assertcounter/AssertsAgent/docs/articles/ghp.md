@@ -1,6 +1,6 @@
 GitHub packages article should cover
 
-2. GitHub does not support delete of repo from gradle and maven
+1. GitHub does not support delete of repo from gradle and maven
 2. it does not allow override of packages other than snapshots
 3. it is always good tasks.named("publish") {
    outputs.upToDateWhen { false }
