@@ -39,7 +39,7 @@ tasks.test {
 //java -javaagent:<pathto local>assert-counter-agent-xxx.jar -jar application-with-tests.jar
 ```
 
-By default it sisplays top summary without details like this
+By default, it displays top summary without details like this
 
 ```text
 > Task :test

@@ -39,13 +39,13 @@ public final class AssertCountAgent
 	ElementMatcher.Junction<TypeDescription> lIncludeMatcher =
 		aConfig.getIncludes()
 		       .stream()
-		       .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+		       .map(ElementMatchers::<TypeDescription>nameContainsIgnoreCase)
 		       .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
 	ElementMatcher.Junction<TypeDescription> lExcludeMatcher =
 		aConfig.getExcludes()
 		       .stream()
-		       .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+		       .map(ElementMatchers::<TypeDescription>nameContainsIgnoreCase)
 		       .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
 	return lIncludeMatcher.and(ElementMatchers.not(lExcludeMatcher));

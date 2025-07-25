@@ -57,11 +57,11 @@ dependencies {
     implementation("net.bytebuddy:byte-buddy-agent:1.17.6")
     implementation("org.ow2.asm:asm:9.8") //fix to bug https://github.com/tginsberg/junit5-system-exit/issues/34
 
-    testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(platform("org.junit:junit-bom:6.0.0-M1"))
+    implementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core:4.0.0-M1")
-    testImplementation("org.hamcrest:hamcrest:3.0")
+    implementation("org.assertj:assertj-core:4.0.0-M1")
+    implementation("org.hamcrest:hamcrest:3.0")
 }
 
 tasks.test {
