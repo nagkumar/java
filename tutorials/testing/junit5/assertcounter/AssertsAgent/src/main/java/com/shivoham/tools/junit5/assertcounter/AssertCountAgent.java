@@ -13,7 +13,7 @@ public final class AssertCountAgent
 {
     public static final void premain(final String aAgentArgs, final Instrumentation aInstrumentation)
     {
-	// 1. Initialize configuration from all sources (reference.conf, reference.conf, etc.)
+	//Initialize configuration from all configuration sources (reference.conf, reference.conf, application.conf etc.)
 	final AgentCFG config = new AgentCFG();
 	AssertCounterInterceptor.setConfig(config);
 
