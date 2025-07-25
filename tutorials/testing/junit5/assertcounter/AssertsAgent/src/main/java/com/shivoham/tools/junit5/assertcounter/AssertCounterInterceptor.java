@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -124,7 +123,7 @@ public final class AssertCounterInterceptor
 	System.out.println("\n=== Assert Method Usage Report (Sorted by Package) ===\n");
 
 	methodCallCounts.entrySet().stream()
-			.sorted(Comparator.comparing(Map.Entry::getKey))
+			.sorted(Map.Entry.comparingByKey())
 			.forEach(entry -> {
 			    final String method = entry.getKey();
 			    final long count = entry.getValue().longValue();
