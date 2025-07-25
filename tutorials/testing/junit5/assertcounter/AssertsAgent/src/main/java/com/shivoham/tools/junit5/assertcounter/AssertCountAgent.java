@@ -34,17 +34,13 @@ public final class AssertCountAgent
 
     private static final ElementMatcher.Junction<TypeDescription> buildTypeMatcher(final AgentCFG aConfig)
     {
-	ElementMatcher.Junction<TypeDescription> includeMatcher = ElementMatchers.none();
-	for (final String include : aConfig.getIncludes())
-	{
-	    includeMatcher = includeMatcher.or(ElementMatchers.nameContainsIgnoreCase(include));
-	}
+	ElementMatcher.Junction<TypeDescription> includeMatcher = aConfig.getIncludes().stream()
+									 .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+									 .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
-	ElementMatcher.Junction<TypeDescription> excludeMatcher = ElementMatchers.none();
-	for (final String exclude : aConfig.getExcludes())
-	{
-	    excludeMatcher = excludeMatcher.or(ElementMatchers.nameContainsIgnoreCase(exclude));
-	}
+	ElementMatcher.Junction<TypeDescription> excludeMatcher = aConfig.getExcludes().stream()
+									 .map(s -> ElementMatchers.<TypeDescription>nameContainsIgnoreCase(s))
+									 .reduce(ElementMatchers.none(), ElementMatcher.Junction::or);
 
 	return includeMatcher.and(ElementMatchers.not(excludeMatcher));
     }
