@@ -103,10 +103,7 @@ public final class AssertCounterInterceptor
 	    }
 	    sb.append(", ");
 	}
-	if (aArgs.length > 0)
-	{
-	    sb.setLength(sb.length() - 2);
-	}
+	sb.setLength(sb.length() - 2);
 	sb.append("]");
 	return sb.toString();
     }
