@@ -6,7 +6,7 @@ import com.typesafe.config.ConfigFactory;
 import java.util.List;
 
 /**
- * Holds the configuration for the agent, loaded via Lightbend Config.
+ * Holds the configuration for the agent, loaded via Lightbend (now it is called typesafe after takeover) Config.
  * It automatically merges settings from the library's `application.conf`
  * with any user-provided `reference.conf` or system properties.
  */
