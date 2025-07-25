@@ -1,4 +1,5 @@
-gradle --rerun-tasks jar test
+gradle --rerun-tasks clean jar test
+
 gradle --rerun-tasks clean jar test
 gradle publis
 gradle --rerun-tasks clean build

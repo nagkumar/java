@@ -28,7 +28,7 @@ repositories {
 
 java {
     toolchain {
-	languageVersion.set(JavaLanguageVersion.of(21))
+	languageVersion.set(JavaLanguageVersion.of(24))
     }
 }
 
@@ -67,7 +67,7 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
     val agentJarPath = tasks.jar.get().archiveFile.get().asFile.absolutePath
-    jvmArgs("-javaagent:$agentJarPath")
+    jvmArgs("-javaagent:$agentJarPath", "-Dnet.bytebuddy.safe=true")
 }
 
 tasks.jar {
