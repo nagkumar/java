@@ -1,5 +1,4 @@
-// settings.gradle.kts
-rootProject.name = "asserts-counter-parent"
+rootProject.name = "assertscounter"
 
 include("AssertsAgent")
 include("AssertsCounterPlugin")
