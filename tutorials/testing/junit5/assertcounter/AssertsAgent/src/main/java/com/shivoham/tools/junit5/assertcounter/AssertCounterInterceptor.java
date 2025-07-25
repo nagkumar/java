@@ -1,6 +1,7 @@
 package com.shivoham.tools.junit5.assertcounter;
 
 import com.shivoham.tools.junit5.assertcounter.cfgs.AgentCFG;
+import com.shivoham.tools.junit5.assertcounter.meta.CalledByAgent;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -27,6 +28,7 @@ public final class AssertCounterInterceptor
 	config = aAgentConfig;
     }
 
+    @CalledByAgent
     @RuntimeType
     public static Object intercept(@Origin final Method aMethod,
 				   @AllArguments final Object[] aArgs,

@@ -1,4 +1,3 @@
-
 Think yourself as world's best technical author who is understood as the simplest, best presenter to simplify technical concept
 
 Make sure this article on DZone, medium and further posted on LinkedIn receives best likes, most interactive comments
