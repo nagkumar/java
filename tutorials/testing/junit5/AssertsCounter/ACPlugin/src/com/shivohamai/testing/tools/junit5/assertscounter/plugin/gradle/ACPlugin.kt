@@ -67,6 +67,15 @@ open class ACPlugin : Plugin<Project>
 	project.tasks.withType<Test> {
 	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
 	    doFirst {
+		agentJARConf.files.forEach { file ->
+		    println("Found file: ${file.absolutePath}");
+		}
+
+		val otherJars = agentJARConf.files
+		    .filter { !it.name.contains("asserts-counter-agent") && it.extension == "jar" }
+		    .joinToString(separator = System.getProperty("path.separator")) { it.absolutePath }
+		println("Other Jars:" + otherJars)
+
 		val agentJarFile = agentJARConf.files
 				       .singleOrNull {
 					   it.name.contains("asserts-counter-agent") && it.extension == "jar"
@@ -74,7 +83,7 @@ open class ACPlugin : Plugin<Project>
 				   ?: throw GradleException(
 				       "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
 
-		jvmArgs("-javaagent:${agentJarFile.absolutePath}")
+		jvmArgs = listOf("-javaagent:${agentJarFile.absolutePath}", "-cp $otherJars")
 	    }
 
 	    // This is the key for automation: automatically hook the report task
