@@ -1,15 +1,18 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.api.JavaVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
+    java
+    application
     `kotlin-dsl` apply false
 }
 
+val projectGroup = "com.shivohamai"
+val projectVersion = "1.0.0"
+val javaLanguageVersion = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+
 allprojects {
-    //Set group and version for both AssertsAgent and AssertsCounterPlugin.
-    //Now you only have to change the version in this one file.
-    group = "com.shivohamai.cc"
-    version = "1.0.0-SNAPSHOT"
+    group = projectGroup
+    version = projectVersion
 
     repositories {
 	mavenCentral()
@@ -21,7 +24,7 @@ subprojects {
 
     java {
 	toolchain {
-	    languageVersion.set(JavaLanguageVersion.of(javaLanguageVersion.toString().removePrefix("VERSION_")))
+	    languageVersion.set(JavaLanguageVersion.of(javaLanguageVersion.toString()))
 	}
     }
 
@@ -30,7 +33,9 @@ subprojects {
 	targetCompatibility = javaLanguageVersion.toString()
     }
 
-    tasks.withType<KotlinCompile>().configureEach {
-	kotlinOptions.jvmTarget = javaLanguageVersion.toString()
+    tasks.withType<KotlinJvmCompile>().configureEach {
+	compilerOptions {
+	    jvmTarget.set(javaLanguageVersion)
+	}
     }
 }
