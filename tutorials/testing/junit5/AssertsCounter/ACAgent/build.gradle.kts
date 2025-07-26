@@ -98,7 +98,3 @@ tasks.named("publish") {
 	println("View it at: https://github.com/nagkumar/java/packages/2589016")
     }
 }
-
-tasks.named<ProcessResources>("processResources") {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}

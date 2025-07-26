@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     java
-    application
     `maven-publish`
     `kotlin-dsl` apply false
 }
@@ -23,8 +22,8 @@ allprojects {
 }
 
 subprojects {
+    apply(plugin = "java")
     apply(plugin = "maven-publish")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
 
     java {
 	toolchain {
@@ -49,6 +48,10 @@ subprojects {
 		include("**/tests/**/*.java")
 	    }
 	}
+    }
+
+    tasks.named<ProcessResources>("processResources") {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 
     tasks.withType<JavaCompile>().configureEach {
