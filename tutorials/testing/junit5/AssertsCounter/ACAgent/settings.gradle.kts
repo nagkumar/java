@@ -1,1 +1,1 @@
-rootProject.name = "AssertsCounterAgent"
+rootProject.name = "asserts-counter-agent"
