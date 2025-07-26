@@ -61,8 +61,9 @@ tasks.test {
 
 tasks.jar {
     manifest {
-	attributes("Premain-Class" to "com.shivoham.tools.junit5.agent.AssertCountAgent",
-		   "Can-Redefine-Classes" to "true", "Can-Retransform-Classes" to "true")
+	attributes["Premain-Class"] = "com.shivohamai.testing.tools.junit5.assertscounter.agent.ACAgent"
+	attributes["Can-Redefine-Classes"] = "true"
+	attributes["Can-Retransform-Classes"] = "true"
     }
 }
 
