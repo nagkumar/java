@@ -7,7 +7,7 @@ plugins {
     `kotlin-dsl` apply false
 }
 
-val projectGroup = "com.shivohamai"
+val projectGroup = "com.shivohamai.cc"
 val projectVersion = "1.0.0"
 val javaLanguageVersion = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 val intJavaVer = javaLanguageVersion.toString().removePrefix("JVM_");

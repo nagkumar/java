@@ -8,9 +8,6 @@ plugins {
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
-group = "com.shivohamai.cc"
-version = "1.0.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
