@@ -49,6 +49,9 @@ open class ACPlugin : Plugin<Project>
 	project.dependencies.add(agentJARConf.name,
 				 "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
 
+	project.dependencies.add("implementation",
+				 "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
+
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
 	project.extensions.create<ACPlugin>("assertsCounter")
 
@@ -67,14 +70,14 @@ open class ACPlugin : Plugin<Project>
 	project.tasks.withType<Test> {
 	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
 	    doFirst {
-		agentJARConf.files.forEach { file ->
-		    println("Found file: ${file.absolutePath}");
-		}
-
-		val otherJars = agentJARConf.files
-		    .filter { !it.name.contains("asserts-counter-agent") && it.extension == "jar" }
-		    .joinToString(separator = System.getProperty("path.separator")) { it.absolutePath }
-		println("Other Jars:" + otherJars)
+		//agentJARConf.files.forEach { file ->
+		//    println("Found file: ${file.absolutePath}");
+		//}
+		//
+		//val otherJars = agentJARConf.files
+		//    .filter { !it.name.contains("asserts-counter-agent") && it.extension == "jar" }
+		//    .joinToString(separator = System.getProperty("path.separator")) { it.absolutePath }
+		//println("Other Jars:" + otherJars)
 
 		val agentJarFile = agentJARConf.files
 				       .singleOrNull {
@@ -83,7 +86,7 @@ open class ACPlugin : Plugin<Project>
 				   ?: throw GradleException(
 				       "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
 
-		jvmArgs = listOf("-javaagent:${agentJarFile.absolutePath}", "-cp $otherJars")
+		jvmArgs = listOf("-javaagent:${agentJarFile.absolutePath}")
 	    }
 
 	    // This is the key for automation: automatically hook the report task
