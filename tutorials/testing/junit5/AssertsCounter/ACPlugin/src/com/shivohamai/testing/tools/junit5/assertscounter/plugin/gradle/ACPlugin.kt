@@ -42,15 +42,14 @@ open class ACPlugin : Plugin<Project>
 	}
 
 	// 2. Add the agent as a dependency to our private configuration.
-
 	val pluginVersion =
 	    javaClass.`package`.implementationVersion
 	    ?: "still_unknown" // Fallback for local dev
-	project.dependencies.add(agentJARConf.name,
-				 "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
 
-	project.dependencies.add("implementation",
-				 "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
+	val aca = "com.shivohamai.cc:asserts-counter-agent:$pluginVersion"
+	project.dependencies.add(agentJARConf.name,
+				 aca)
+	project.dependencies.add("implementation", aca)
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
 	project.extensions.create<ACPlugin>("assertsCounter")
