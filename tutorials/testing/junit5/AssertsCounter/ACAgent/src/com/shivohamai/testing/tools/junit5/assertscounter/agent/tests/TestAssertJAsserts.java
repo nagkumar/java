@@ -1,4 +1,4 @@
-package com.shivohamai.testing.tools.junit5.acagent.tests;
+package com.shivohamai.testing.tools.junit5.assertscounter.agent.tests;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
