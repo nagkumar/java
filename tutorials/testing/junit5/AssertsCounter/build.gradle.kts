@@ -4,7 +4,7 @@ plugins {
     java
     application
     `maven-publish`
-    `kotlin-dsl` apply false
+    `kotlin-dsl`
 }
 
 val projectGroup = "com.shivohamai.cc"
@@ -22,6 +22,8 @@ allprojects {
 }
 
 subprojects {
+    apply(plugin = "java")
+    apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
     java {
