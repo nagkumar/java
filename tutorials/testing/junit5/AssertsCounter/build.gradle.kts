@@ -4,7 +4,7 @@ plugins {
     java
     application
     `maven-publish`
-    `kotlin-dsl`
+    `kotlin-dsl` apply false
 }
 
 val projectGroup = "com.shivohamai.cc"
