@@ -10,6 +10,7 @@ plugins {
 val projectGroup = "com.shivohamai"
 val projectVersion = "1.0.0"
 val javaLanguageVersion = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+val intJavaVer = javaLanguageVersion.toString().removePrefix("JVM_");
 
 allprojects {
     group = projectGroup
@@ -25,13 +26,13 @@ subprojects {
 
     java {
 	toolchain {
-	    languageVersion.set(JavaLanguageVersion.of(javaLanguageVersion.toString()))
+	    languageVersion.set(JavaLanguageVersion.of(intJavaVer))
 	}
     }
 
     tasks.withType<JavaCompile>().configureEach {
-	sourceCompatibility = javaLanguageVersion.toString()
-	targetCompatibility = javaLanguageVersion.toString()
+	sourceCompatibility = intJavaVer
+	targetCompatibility = intJavaVer
     }
 
     tasks.withType<KotlinJvmCompile>().configureEach {
