@@ -12,7 +12,7 @@ import java.util.*
  * A Gradle extension to allow advanced, manual interaction with the asserts counter.
  * The primary use case (printing a report after tests) is handled automatically by the plugin.
  */
-abstract class ACPlugin
+abstract class ACExtension
 {
     /**
      * Manually triggers the printing of the assertion count report.
@@ -28,7 +28,7 @@ abstract class ACPlugin
  * A Gradle plugin that automatically instruments the `test` task to count
  * JUnit 5 assertions using a Java Agent.
  */
-class AssertsCounterPlugin : Plugin<Project>
+class ACPlugin : Plugin<Project>
 {
     override fun apply(project: Project)
     {
@@ -50,7 +50,7 @@ class AssertsCounterPlugin : Plugin<Project>
 
 	project.dependencies.add(
 	    agentConf.name,
-	    "com.shivoham.tools.junit5.assertcounter:AssertsCounterPlugin:$pluginVersion")
+	    "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
 	project.extensions.create<ACPlugin>("assertsCounter")
