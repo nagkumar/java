@@ -11,7 +11,7 @@ import java.util.*
  * A Gradle extension to allow advanced, manual interaction with the asserts counter.
  * The primary use case (printing a report after tests) is handled automatically by the plugin.
  */
-abstract class AssertsCounterExtension
+abstract class ACPlugin
 {
     /**
      * Manually triggers the printing of the assertion count report.
