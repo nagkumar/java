@@ -1,5 +1,6 @@
 plugins {
     java
+    id("asserts-counter-plugin") version "1.0.10-SNAPSHOT"
 }
 
 group = "com.example"
@@ -13,6 +14,14 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+	name = "GitHubPackages"
+	url = uri("https://maven.pkg.github.com/nagkumar/java")
+	credentials {
+	    username = System.getenv("GITHUB_ACTOR")
+	    password = System.getenv("GITHUB_TOKEN")
+	}
+    }
 }
 
 dependencies {
