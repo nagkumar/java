@@ -50,8 +50,7 @@ class AssertsCounterPlugin : Plugin<Project>
 
 	project.dependencies.add(
 	    agentConf.name,
-	    "com.shivoham.tools.junit5.assertcounter:AssertsCounterPlugin:$pluginVersion"
-				)
+	    "com.shivoham.tools.junit5.assertcounter:AssertsCounterPlugin:$pluginVersion")
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
 	project.extensions.create<AssertsCounterExtension>("assertsCounter")

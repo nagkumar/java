@@ -1,1 +1,1 @@
-rootProject.name = "AssertsCounterPlugin"
+rootProject.name = "asserts-counter-plugin"

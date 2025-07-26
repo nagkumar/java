@@ -3,8 +3,8 @@ plugins {
     `maven-publish`
 }
 
-group = "com.shivohamai.testing.tools.junit5.assertscounter"
-version = "1.0.9-SNAPSHOT"
+group = "com.shivohamai.cc"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -12,24 +12,19 @@ repositories {
 
 // The plugin needs the Gradle API to function
 dependencies {
-    // This is the key: the plugin project depends on the agent project.
-    // Gradle will automatically bundle the agent JAR with the plugin.
-    implementation(project(":AssertsAgent"))
+    implementation(project(":ACAgent"))
 }
 
-// Configure the plugin for Gradle's discovery mechanism
 gradlePlugin {
     plugins {
 	create("assertsCounter") {
-	    id = "com.shivoham.asserts-counter" // This is the ID users will apply
-	    implementationClass = "com.shivoham.tools.gradle.AssertsCounterPlugin"
-	    displayName = "Asserts Counter Agent Plugin"
-	    description = "Automatically applies the asserts-counter java agent to the test task."
+	    implementationClass = "com.shivoham.tools.gradle.AssertsCounterExtension"
+	    displayName = "Asserts Counter Plugin"
+	    description = "Automatically applies the asserts-counter java agent to the test task"
 	}
     }
 }
 
-// Your existing publishing logic, now for the plugin artifact
 publishing {
     repositories {
 	maven {
