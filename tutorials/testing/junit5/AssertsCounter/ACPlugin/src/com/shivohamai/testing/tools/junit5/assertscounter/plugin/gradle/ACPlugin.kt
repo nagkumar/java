@@ -1,6 +1,5 @@
-package com.shivoham.tools.gradle
+package com.shivohamai.testing.tools.junit5.assertscounter.plugin.gradle
 
-import com.shivoham.tools.junit5.assertcounter.AssertCounterInterceptor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -20,7 +19,7 @@ abstract class AssertsCounterExtension
      */
     fun printReport()
     {
-	AssertCounterInterceptor.printReport()
+	ACInterceptor.printReport()
     }
 }
 
