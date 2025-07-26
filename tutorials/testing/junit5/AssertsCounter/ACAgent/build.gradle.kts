@@ -8,10 +8,6 @@ plugins {
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
-repositories {
-    mavenCentral()
-}
-
 java {
     toolchain {
 	languageVersion.set(JavaLanguageVersion.of(21))
