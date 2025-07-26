@@ -10,7 +10,7 @@ plugins {
 val projectGroup = "com.shivohamai.cc"
 val projectVersion = "1.0.0-SNAPSHOT"
 val javaLanguageVersion = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-val intJavaVer = javaLanguageVersion.toString().removePrefix("JVM_");
+val intJavaVer = javaLanguageVersion.toString().removePrefix("JVM_")
 
 allprojects {
     group = projectGroup
