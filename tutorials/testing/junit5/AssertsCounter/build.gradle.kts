@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 plugins {
     java
     application
+    `maven-publish`
     `kotlin-dsl` apply false
 }
 
