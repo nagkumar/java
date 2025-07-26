@@ -1,5 +1,6 @@
 package com.shivohamai.testing.tools.junit5.assertscounter.plugin.gradle
 
+import com.shivohamai.testing.tools.junit5.assertscounter.agent.ACInterceptor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -52,14 +53,14 @@ class AssertsCounterPlugin : Plugin<Project>
 	    "com.shivoham.tools.junit5.assertcounter:AssertsCounterPlugin:$pluginVersion")
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
-	project.extensions.create<AssertsCounterExtension>("assertsCounter")
+	project.extensions.create<ACPlugin>("assertsCounter")
 
 	// 4. Register the task that will print the final report.
 	val printReportTask = project.tasks.register("printAssertsReport") {
 	    group = "Verification"
 	    description = "Prints the report from the Asserts Counter Agent."
 	    doLast {
-		AssertCounterInterceptor.printReport()
+		ACInterceptor.printReport()
 	    }
 	    // Ensure this task always runs after any test execution it's attached to.
 	    mustRunAfter(project.tasks.withType<Test>())
