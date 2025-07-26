@@ -1,4 +1,4 @@
 rootProject.name = "assertscounter"
 
-include("AssertsAgent")
-include("AssertsCounterPlugin")
+include("ACAgent")
+include("ACPlugin")
