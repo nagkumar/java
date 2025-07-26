@@ -8,12 +8,6 @@ plugins {
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
-java {
-    toolchain {
-	languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
 sourceSets {
     main {
 	java {
@@ -47,6 +41,12 @@ dependencies {
 }
 
 tasks.test {
+    doFirst {
+	val launcher = javaLauncher.get()
+	println("\n🔧 Test JVM toolchain path: ${launcher.metadata.installationPath}")
+	println("🧠 Test JVM toolchain vendor: ${launcher.metadata.vendor}")
+	println("🧠 Java version in toolchain: ${launcher.metadata.languageVersion.asInt()}\n\n")
+    }
     useJUnitPlatform()
     val agentJarPath = tasks.jar.get().archiveFile.get().asFile.absolutePath
     jvmArgs("-javaagent:$agentJarPath")
