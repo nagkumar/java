@@ -28,7 +28,7 @@ abstract class ACExtension
  * A Gradle plugin that automatically instruments the `test` task to count
  * JUnit 5 assertions using a Java Agent.
  */
-class ACPlugin : Plugin<Project>
+open class ACPlugin : Plugin<Project>
 {
     override fun apply(project: Project)
     {
@@ -42,11 +42,7 @@ class ACPlugin : Plugin<Project>
 	}
 
 	// 2. Add the agent as a dependency to our private configuration.
-	//    We read the version from a properties file bundled inside the plugin JAR.
-	//    This makes the plugin self-contained and robust against version mismatches.
-	val props = Properties()
-	this.javaClass.classLoader.getResourceAsStream("plugin.properties")?.use { props.load(it) }
-	val pluginVersion = props.getProperty("version", project.version.toString()) // Fallback for local dev
+	val pluginVersion = this.javaClass.`package`.implementationVersion ?: "still_unknown"// Fallback for local dev
 
 	project.dependencies.add(
 	    agentConf.name,
