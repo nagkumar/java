@@ -1,15 +1,12 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-
 plugins {
     java
     `maven-publish`
-    `kotlin-dsl` apply false
 }
 
 val projectGroup = "com.shivohamai.cc"
 val projectVersion = "1.0.0-SNAPSHOT"
-val javaLanguageVersion = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-val intJavaVer = javaLanguageVersion.toString().removePrefix("JVM_")
+
+val intJavaVer = 21
 
 allprojects {
     group = projectGroup
@@ -51,15 +48,10 @@ subprojects {
     }
 
     tasks.withType<JavaCompile>().configureEach {
-	sourceCompatibility = intJavaVer
-	targetCompatibility = intJavaVer
+	sourceCompatibility = intJavaVer.toString()
+	targetCompatibility = intJavaVer.toString()
     }
 
-    tasks.withType<KotlinJvmCompile>().configureEach {
-	compilerOptions {
-	    jvmTarget.set(javaLanguageVersion)
-	}
-    }
 
     tasks.named("publish") {
 	outputs.upToDateWhen { false }
