@@ -19,6 +19,7 @@ allprojects {
     repositories {
 	mavenCentral()
     }
+    defaultTasks("clean", "build", "publish")
 }
 
 subprojects {

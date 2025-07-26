@@ -102,7 +102,3 @@ tasks.named("publish") {
 tasks.named<ProcessResources>("processResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
-
-//defaultTasks("clean", "build")
-
-defaultTasks("clean", "build", "publish")
