@@ -1,12 +1,12 @@
 package com.shivohamai.testing.tools.junit5.assertscounter.plugin.gradle
 
 import com.shivohamai.testing.tools.junit5.assertscounter.agent.ACInterceptor
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
-import java.util.*
 
 /**
  * A Gradle extension to allow advanced, manual interaction with the asserts counter.
@@ -34,7 +34,7 @@ open class ACPlugin : Plugin<Project>
     {
 	// 1. Create a private, resolvable configuration to hold the agent JAR.
 	//    This isolates the agent dependency from the user's build script.
-	val agentConf = project.configurations.create("assertsAgent") {
+	val agentJARConf = project.configurations.create("assertsAgentJAR") {
 	    isVisible = false
 	    isCanBeConsumed = false
 	    isCanBeResolved = true
@@ -42,11 +42,12 @@ open class ACPlugin : Plugin<Project>
 	}
 
 	// 2. Add the agent as a dependency to our private configuration.
-	val pluginVersion = this.javaClass.`package`.implementationVersion ?: "still_unknown"// Fallback for local dev
 
-	project.dependencies.add(
-	    agentConf.name,
-	    "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
+	val pluginVersion =
+	    javaClass.`package`.implementationVersion
+	    ?: "still_unknown" // Fallback for local dev
+	project.dependencies.add(agentJARConf.name,
+				 "com.shivohamai.cc:asserts-counter-agent:$pluginVersion")
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
 	project.extensions.create<ACPlugin>("assertsCounter")
@@ -66,8 +67,14 @@ open class ACPlugin : Plugin<Project>
 	project.tasks.withType<Test> {
 	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
 	    doFirst {
-		val agentJar = agentConf.singleFile
-		jvmArgs("-javaagent:${agentJar.absolutePath}")
+		val agentJarFile = agentJARConf.files
+				       .singleOrNull {
+					   it.name.contains("asserts-counter-agent") && it.extension == "jar"
+				       }
+				   ?: throw GradleException(
+				       "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
+
+		jvmArgs("-javaagent:${agentJarFile.absolutePath}")
 	    }
 
 	    // This is the key for automation: automatically hook the report task

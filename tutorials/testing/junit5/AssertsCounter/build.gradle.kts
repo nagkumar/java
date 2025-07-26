@@ -4,7 +4,7 @@ plugins {
 }
 
 val projectGroup = "com.shivohamai.cc"
-val projectVersion = "1.0.3-SNAPSHOT"
+val projectVersion = "1.0.7-SNAPSHOT"
 
 val intJavaVer = 21
 
