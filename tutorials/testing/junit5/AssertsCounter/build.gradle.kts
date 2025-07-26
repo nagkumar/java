@@ -79,10 +79,6 @@ subprojects {
 	publications {
 	    create<MavenPublication>("mavenJava") {
 		from(components["java"])
-		artifact("docs/artifacts/README.md") {
-		    classifier = "README"
-		    extension = "md"
-		}
 	    }
 	}
     }
