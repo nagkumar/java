@@ -22,7 +22,6 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "java")
     apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
