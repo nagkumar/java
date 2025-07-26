@@ -50,10 +50,6 @@ subprojects {
 	}
     }
 
-    tasks.named<ProcessResources>("processResources") {
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    }
-
     tasks.withType<JavaCompile>().configureEach {
 	sourceCompatibility = intJavaVer
 	targetCompatibility = intJavaVer
@@ -62,6 +58,50 @@ subprojects {
     tasks.withType<KotlinJvmCompile>().configureEach {
 	compilerOptions {
 	    jvmTarget.set(javaLanguageVersion)
+	}
+    }
+
+    tasks.named("publish") {
+	outputs.upToDateWhen { false }
+    }
+
+    publishing {
+	repositories {
+	    maven {
+		name = "GitHubPackages"
+		url = uri("https://maven.pkg.github.com/nagkumar/java")
+		credentials {
+		    username = System.getenv("GITHUB_ACTOR")
+		    password = System.getenv("GITHUB_TOKEN")
+		}
+	    }
+	}
+	publications {
+	    create<MavenPublication>("mavenJava") {
+		from(components["java"])
+		artifact("docs/artifacts/README.md") {
+		    classifier = "README"
+		    extension = "md"
+		}
+	    }
+	}
+    }
+
+    tasks.withType<PublishToMavenRepository>().configureEach {
+	doFirst {
+	    println("\nPublishing to GitHub Packages...")
+	    publishing.publications.withType<MavenPublication>().forEach { pub ->
+		println("Publication: ${pub.name}")
+		pub.artifacts.forEach {
+		    println("\tArtifact: ${it.file.name}")
+		}
+	    }
+	}
+    }
+
+    tasks.named("publish") {
+	doLast {
+	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
 	}
     }
 }
