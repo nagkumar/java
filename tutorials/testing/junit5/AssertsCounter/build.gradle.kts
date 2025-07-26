@@ -31,6 +31,25 @@ subprojects {
 	}
     }
 
+    sourceSets {
+	main {
+	    java {
+		srcDir("src")
+		exclude("**/tests/**/*.java")
+	    }
+	    resources {
+		srcDir("src/res")
+		include("**/*.conf")
+	    }
+	}
+	test {
+	    java {
+		srcDir("src")
+		include("**/tests/**/*.java")
+	    }
+	}
+    }
+
     tasks.withType<JavaCompile>().configureEach {
 	sourceCompatibility = intJavaVer
 	targetCompatibility = intJavaVer

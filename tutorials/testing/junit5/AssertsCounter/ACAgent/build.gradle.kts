@@ -5,25 +5,6 @@ plugins {
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
-sourceSets {
-    main {
-	java {
-	    srcDir("src")
-	    exclude("**/tests/**/*.java")
-	}
-	resources {
-	    srcDir("src/res")
-	    include("**/*.conf")
-	}
-    }
-    test {
-	java {
-	    srcDir("src")
-	    include("**/tests/**/*.java")
-	}
-    }
-}
-
 dependencies {
     implementation("com.typesafe:config:1.4.4")
     implementation("net.bytebuddy:byte-buddy:1.17.6")
