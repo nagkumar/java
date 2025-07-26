@@ -1,7 +1,7 @@
-package com.shivohamai.testing.tools.junit5.acagent;
+package com.shivohamai.testing.tools.junit5.assertscounter.agent;
 
 import com.shivohamai.testing.tools.junit5.acagent.cfgs.ACAgentCFG;
-import com.shivohamai.testing.tools.junit5.acagent.meta.CalledByAgent;
+import com.shivohamai.testing.tools.junit5.assertscounter.agent.meta.CalledByAgent;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;

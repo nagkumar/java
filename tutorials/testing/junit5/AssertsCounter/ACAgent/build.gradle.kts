@@ -8,7 +8,7 @@ plugins {
     id("se.patrikerdes.use-latest-versions") version ("0.2.18")
 }
 
-group = "com.shivohamai.testing.tools.junit5.assertscounter"
+group = "com.shivohamai"
 version = "1.0.8-SNAPSHOT"
 
 repositories {
@@ -28,7 +28,7 @@ sourceSets {
 	    exclude("**/tests/**/*.java")
 	}
 	resources {
-	    srcDir("src/main/resources")
+	    srcDir("src/res")
 	    include("**/*.conf")
 	}
     }
@@ -41,16 +41,16 @@ sourceSets {
 }
 
 dependencies {
-    implementation("com.typesafe:config:1.4.3")
+    implementation("com.typesafe:config:1.4.4")
     implementation("net.bytebuddy:byte-buddy:1.17.6")
     implementation("net.bytebuddy:byte-buddy-agent:1.17.6")
     implementation("org.ow2.asm:asm:9.8") //fix to bug https://github.com/tginsberg/junit5-system-exit/issues/34
 
-    implementation(platform("org.junit:junit-bom:6.0.0-M1"))
+    implementation(platform("org.junit:junit-bom:6.0.0-M2"))
     implementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.junit.platform:junit-platform-launcher")
     implementation("org.assertj:assertj-core:4.0.0-M1")
     implementation("org.hamcrest:hamcrest:3.0")
+    testImplementation("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
@@ -61,7 +61,7 @@ tasks.test {
 
 tasks.jar {
     manifest {
-	attributes("Premain-Class" to "com.shivoham.tools.junit5.acagent.AssertCountAgent",
+	attributes("Premain-Class" to "com.shivoham.tools.junit5.agent.AssertCountAgent",
 		   "Can-Redefine-Classes" to "true", "Can-Retransform-Classes" to "true")
     }
 }

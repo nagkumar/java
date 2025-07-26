@@ -1,4 +1,4 @@
-package com.shivohamai.testing.tools.junit5.acagent;
+package com.shivohamai.testing.tools.junit5.assertscounter.agent;
 
 import com.shivohamai.testing.tools.junit5.acagent.cfgs.ACAgentCFG;
 import net.bytebuddy.agent.builder.AgentBuilder;

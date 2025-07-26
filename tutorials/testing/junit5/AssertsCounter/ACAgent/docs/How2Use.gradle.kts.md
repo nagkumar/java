@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("com.shivoham.tools.junit5.acagent:asserts-agent:1.0.7-SNAPSHOT") {
+    testImplementation("com.shivoham.tools.junit5.agent:asserts-agent:1.0.7-SNAPSHOT") {
 	isChanging = true
     }
 }
