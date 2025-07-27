@@ -70,7 +70,8 @@ open class ACPlugin : Plugin<Project>
 					   "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
 
 		    // This list of arguments will be safely appended to any existing jvmArgs.
-		    listOf("-javaagent:${agentJarFile.absolutePath}", "-Dnet.bytebuddy.safe=true")
+		    listOf("-javaagent:${agentJarFile.absolutePath}")
+		    //listOf("-javaagent:${agentJarFile.absolutePath}", "-Dnet.bytebuddy.safe=true")
 		}
 	    }
 
