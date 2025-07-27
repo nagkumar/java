@@ -123,7 +123,8 @@ open class ACPlugin : Plugin<Project>
      */
     private fun applyDependencyManagementPlugins(project: Project)
     {
-	try {
+	try
+	{
 	    // Ensure gradlePluginPortal() is available for resolving plugins
 	    project.repositories {
 		gradlePluginPortal()
@@ -141,7 +142,8 @@ open class ACPlugin : Plugin<Project>
 	    // Add hardcoded plugin dependencies with correct coordinates
 	    project.dependencies.add(pluginConf.name, "com.github.ben-manes:gradle-versions-plugin:0.52.0")
 	    //project.dependencies.add(pluginConf.name, "gradle.plugin.se.patrikerdes:gradle-use-latest-versions-plugin:0.2.18")
-
+	    project.dependencies.add(pluginConf.name,
+				     "se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
 	    // Resolve the plugins to ensure they are available
 	    pluginConf.resolve()
 
@@ -151,7 +153,9 @@ open class ACPlugin : Plugin<Project>
 
 	    project.logger.info("Successfully applied dependency management plugins")
 
-	} catch (e: Exception) {
+	}
+	catch (e: Exception)
+	{
 	    // Log warning but don't fail - these plugins are optional
 	    project.logger.warn(
 		"Warning: Could not apply optional dependency management plugins. " +
