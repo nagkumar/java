@@ -9,22 +9,6 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
 
 /**
- * A Gradle extension to allow advanced, manual interaction with the asserts counter.
- * The primary use case (printing a report after tests) is handled automatically by the plugin.
- */
-abstract class ACExtension
-{
-    /**
-     * Manually triggers the printing of the assertion count report.
-     * Useful if you want to call it from a custom task.
-     */
-    fun printReport()
-    {
-	ACInterceptor.printReport()
-    }
-}
-
-/**
  * A Gradle plugin that automatically instruments the `test` task to count
  * JUnit 5 assertions using a Java Agent.
  */
@@ -77,15 +61,17 @@ open class ACPlugin : Plugin<Project>
 		//    .filter { !it.name.contains("asserts-counter-agent") && it.extension == "jar" }
 		//    .joinToString(separator = System.getProperty("path.separator")) { it.absolutePath }
 		//println("Other Jars:" + otherJars)
+		jvmArgumentProviders.add {
+		    val agentJarFile = agentJARConf.files
+					   .singleOrNull {
+					       it.name.contains("asserts-counter-agent") && it.extension == "jar"
+					   }
+				       ?: throw GradleException(
+					   "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
 
-		val agentJarFile = agentJARConf.files
-				       .singleOrNull {
-					   it.name.contains("asserts-counter-agent") && it.extension == "jar"
-				       }
-				   ?: throw GradleException(
-				       "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
-
-		jvmArgs = listOf("-javaagent:${agentJarFile.absolutePath}")
+		    // This list of arguments will be safely appended to any existing jvmArgs.
+		    listOf("-javaagent:${agentJarFile.absolutePath}", "-Dnet.bytebuddy.safe=true")
+		}
 	    }
 
 	    // This is the key for automation: automatically hook the report task
