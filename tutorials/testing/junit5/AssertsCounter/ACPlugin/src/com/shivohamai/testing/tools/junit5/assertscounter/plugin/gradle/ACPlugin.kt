@@ -122,25 +122,44 @@ open class ACPlugin : Plugin<Project>
 	    }
 
 	    // Add hardcoded plugin dependencies with correct coordinates
-	    project.dependencies.add(pluginConf.name, "com.github.ben-manes:gradle-versions-plugin:0.52.0")
+	    project.dependencies.add(pluginConf.name, "com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.52.0")
 	    project.dependencies.add(
 		pluginConf.name,
-		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
+		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18"
+				    )
 
-	    // Resolve the plugins to ensure they are available
-	    pluginConf.resolve()
-
-	    // Apply the plugins
-	    project.pluginManager.apply("com.github.ben-manes.versions")
-	    project.pluginManager.apply("se.patrikerdes.use-latest-versions")
-
-	    // Log success and verify task existence
-	    project.logger.info("Successfully applied dependency management plugins")
-	    project.tasks.findByName("useLatestVersions")?.let {
-		project.logger.info("Task 'useLatestVersions' is available")
+	    // Explicitly resolve the configuration to ensure dependencies are available
+	    project.logger.info("Resolving dependency management plugins...")
+	    try
+	    {
+		pluginConf.resolve()
+		project.logger.info("Successfully resolved dependency management plugins")
 	    }
-	    ?: project.logger.warn("Task 'useLatestVersions' not found after applying plugin")
+	    catch (e: Exception)
+	    {
+		project.logger.warn(
+		    "Failed to resolve dependency management plugins. Reason: ${e.message}\n" +
+		    "Stacktrace: ${e.stackTraceToString()}")
+		throw e // Rethrow to catch in outer block
+	    }
 
+	    // Apply the plugins safely
+	    project.logger.info("Applying com.github.ben-manes.versions plugin...")
+	    project.pluginManager.apply("com.github.ben-manes.versions")
+	    project.logger.info("Successfully applied com.github.ben-manes.versions plugin")
+
+	    // Apply use-latest-versions plugin only if gradle-versions-plugin was applied
+	    project.pluginManager.withPlugin("com.github.ben-manes.versions") {
+		project.logger.info("Applying se.patrikerdes.use-latest-versions plugin...")
+		project.pluginManager.apply("se.patrikerdes.use-latest-versions")
+		project.logger.info("Successfully applied se.patrikerdes.use-latest-versions plugin")
+
+		// Verify task existence
+		project.tasks.findByName("useLatestVersions")?.let {
+		    project.logger.info("Task 'useLatestVersions' is available")
+		}
+		?: project.logger.warn("Task 'useLatestVersions' not found after applying plugin")
+	    }
 	}
 	catch (e: Exception)
 	{
@@ -148,8 +167,7 @@ open class ACPlugin : Plugin<Project>
 	    project.logger.warn(
 		"Warning: Could not apply optional dependency management plugins. " +
 		"The asserts-counter plugin will still work normally. " +
-		"Reason: ${e.message}\n" +
-		"Stacktrace: ${e.stackTraceToString()}")
+		"Reason: ${e.message}\n" + "Stacktrace: ${e.stackTraceToString()}")
 	}
     }
 }
