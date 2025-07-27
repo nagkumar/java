@@ -1,6 +1,6 @@
 plugins {
     java
-    id("asserts-counter-plugin") version "1.0.11-SNAPSHOT"
+    id("asserts-counter-plugin") version "1.0.13-SNAPSHOT"
 }
 
 group = "com.example"
@@ -33,6 +33,13 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgumentProviders.add(CommandLineArgumentProvider {
+	var dd = configurations.testRuntimeClasspath.get().files.find {
+	    it.name.contains("junit5-system-exit")
+	}
+	listOf("-javaagent:${dd}")
+    })
+
     jvmArgs(
 	"--add-opens", "java.base/java.lang=ALL-UNNAMED",
 	"--add-opens", "java.base/java.io=ALL-UNNAMED")
