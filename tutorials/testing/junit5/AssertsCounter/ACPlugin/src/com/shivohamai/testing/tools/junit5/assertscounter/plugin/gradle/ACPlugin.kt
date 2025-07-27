@@ -19,72 +19,59 @@ import java.io.File
  */
 open class ACPlugin : Plugin<Project>
 {
-    override fun apply(aProject: Project)
+    override fun apply(project: Project)
     {
-	// Apply additional dependency management plugins (optional)
-	applyDependencyManagementPlugins(aProject)
+	// Configure repositories at the project level for all dependency resolutions
+	project.repositories {
+	    gradlePluginPortal()
+	    mavenCentral()
+	}
 
-	// 1. Create a private, resolvable configuration to hold the agent JAR.
-	//    This isolates the agent dependency from the user's build script.
-	val agentJARConf = aProject.configurations.create("assertsAgentJAR") {
+	// Apply additional dependency management plugins (optional)
+	applyDependencyManagementPlugins(project)
+
+	// 1. Create a private, resolvable configuration to hold the agent JAR
+	val agentJARConf = project.configurations.create("assertsAgentJAR") {
 	    isVisible = false
 	    isCanBeConsumed = false
 	    isCanBeResolved = true
 	    description = "The asserts-counter agent JAR and its dependencies"
 	}
 
-	// 2. Add the agent as a dependency to our private configuration.
+	// 2. Add the agent as a dependency to our private configuration
 	val pluginVersion =
 	    javaClass.`package`.implementationVersion
 	    ?: "still_unknown" // Fallback for local dev
-
 	val aca = "com.shivohamai.cc:asserts-counter-agent:$pluginVersion"
-	aProject.dependencies.add(agentJARConf.name,
-				  aca)
-	aProject.dependencies.add("implementation", aca)
+	project.dependencies.add(agentJARConf.name, aca)
+	project.dependencies.add("implementation", aca)
 
-	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
-	aProject.extensions.create<ACPlugin>("assertsCounter")
+	// 3. Register the extension for manual report printing
+	project.extensions.create<ACPlugin>("assertsCounter")
 
-	// 4. Register the task that will print the final report.
-	val printReportTask = aProject.tasks.register("printAssertsReport") {
+	// 4. Register the task that will print the final report
+	val printReportTask = project.tasks.register("printAssertsReport") {
 	    group = "Verification"
 	    description = "Prints the report from the Asserts Counter Agent."
 	    doLast {
 		ACInterceptor.printReport()
 	    }
-	    // Ensure this task always runs after any test execution it's attached to.
-	    mustRunAfter(aProject.tasks.withType<Test>())
+	    mustRunAfter(project.tasks.withType<Test>())
 	}
 
-	// 5. Configure all tasks of type `Test` to use the agent and be finalized by the report task.
-	aProject.tasks.withType<Test>().configureEach {
-	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
+	// 5. Configure all tasks of type `Test` to use the agent and be finalized by the report task
+	project.tasks.withType<Test>().configureEach {
 	    doFirst {
-		//agentJARConf.files.forEach { file ->
-		//    println("Found file: ${file.absolutePath}");
-		//}
-		//
-		//val otherJars = agentJARConf.files
-		//    .filter { !it.name.contains("asserts-counter-agent") && it.extension == "jar" }
-		//    .joinToString(separator = System.getProperty("path.separator")) { it.absolutePath }
-		//println("Other Jars:" + otherJars)
+		val agentJarFile = agentJARConf.files.singleOrNull {
+		    it.name.contains("asserts-counter-agent") && it.extension == "jar"
+		}
+				   ?: throw GradleException(
+				       "Could not find a JAR matching asserts-counter-agent in configuration 'assertsAgentJAR'"
+							   )
 		jvmArgumentProviders.add {
-		    val agentJarFile = agentJARConf.files
-					   .singleOrNull {
-					       it.name.contains("asserts-counter-agent") && it.extension == "jar"
-					   }
-				       ?: throw GradleException(
-					   "Could not find a JAR matching asserts-counter-agent in configuration 'agentJARConf'")
-
-		    // This list of arguments will be safely appended to any existing jvmArgs.
 		    listOf("-javaagent:${agentJarFile.absolutePath}")
-		    //listOf("-javaagent:${agentJarFile.absolutePath}", "-Dnet.bytebuddy.safe=true")
 		}
 	    }
-
-	    // This is the key for automation: automatically hook the report task
-	    // to run after this test task completes, regardless of success or failure.
 	    finalizedBy(printReportTask)
 
 	    // Add afterSuite to print test summary and environment details
@@ -99,8 +86,7 @@ open class ACPlugin : Plugin<Project>
 									     System.getProperty("java.vm.name")
 									 } (${System.getProperty("java.vm.version")})")
 									 println(
-									     "🛠 Gradle Version: ${aProject.gradle.gradleVersion}\n\n")
-
+									     "🛠 Gradle Version: ${project.gradle.gradleVersion}\n")
 									 println("🔍 Test Summary:")
 									 println(
 									     " - ${result.testCount} tests executed")
@@ -109,11 +95,13 @@ open class ACPlugin : Plugin<Project>
 									 println(" - ${result.failedTestCount} failed")
 									 println(
 									     " - ${result.skippedTestCount} skipped")
-									 println(
-									     "\nTest Report: file:///" + reports.html.entryPoint.absolutePath.replace(
-										 File.separatorChar, '/'))
+									 println("\nTest Report: file:///${
+									     reports.html.entryPoint.absolutePath.replace(
+										 File.separatorChar, '/')
+									 }")
 								     }
-								 }))
+								 })
+		      )
 	}
     }
 
@@ -125,12 +113,6 @@ open class ACPlugin : Plugin<Project>
     {
 	try
 	{
-	    // Ensure gradlePluginPortal() is available for resolving plugins
-	    project.repositories {
-		gradlePluginPortal()
-		mavenCentral()
-	    }
-
 	    // Create a configuration to hold the plugin dependencies
 	    val pluginConf = project.configurations.create("dependencyManagementPlugins") {
 		isVisible = false
@@ -141,9 +123,10 @@ open class ACPlugin : Plugin<Project>
 
 	    // Add hardcoded plugin dependencies with correct coordinates
 	    project.dependencies.add(pluginConf.name, "com.github.ben-manes:gradle-versions-plugin:0.52.0")
-	    //project.dependencies.add(pluginConf.name, "gradle.plugin.se.patrikerdes:gradle-use-latest-versions-plugin:0.2.18")
-	    project.dependencies.add(pluginConf.name,
-				     "se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
+	    project.dependencies.add(
+		pluginConf.name,
+		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
+
 	    // Resolve the plugins to ensure they are available
 	    pluginConf.resolve()
 
@@ -151,16 +134,22 @@ open class ACPlugin : Plugin<Project>
 	    project.pluginManager.apply("com.github.ben-manes.versions")
 	    project.pluginManager.apply("se.patrikerdes.use-latest-versions")
 
+	    // Log success and verify task existence
 	    project.logger.info("Successfully applied dependency management plugins")
+	    project.tasks.findByName("useLatestVersions")?.let {
+		project.logger.info("Task 'useLatestVersions' is available")
+	    }
+	    ?: project.logger.warn("Task 'useLatestVersions' not found after applying plugin")
 
 	}
 	catch (e: Exception)
 	{
-	    // Log warning but don't fail - these plugins are optional
+	    // Log detailed warning but don't fail - these plugins are optional
 	    project.logger.warn(
 		"Warning: Could not apply optional dependency management plugins. " +
 		"The asserts-counter plugin will still work normally. " +
-		"Reason: ${e.message}")
+		"Reason: ${e.message}\n" +
+		"Stacktrace: ${e.stackTraceToString()}")
 	}
     }
 }
