@@ -122,11 +122,12 @@ open class ACPlugin : Plugin<Project>
 	    }
 
 	    // Add hardcoded plugin dependencies with correct coordinates
-	    project.dependencies.add(pluginConf.name, "com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.52.0")
+	    project.dependencies.add(pluginConf.name,
+				     "com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.52.0")
+
 	    project.dependencies.add(
 		pluginConf.name,
-		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18"
-				    )
+		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
 
 	    // Explicitly resolve the configuration to ensure dependencies are available
 	    project.logger.info("Resolving dependency management plugins...")
