@@ -27,9 +27,6 @@ open class ACPlugin : Plugin<Project>
 	    mavenCentral()
 	}
 
-	// Apply additional dependency management plugins (optional)
-	applyDependencyManagementPlugins(project)
-
 	// 1. Create a private, resolvable configuration to hold the agent JAR
 	val agentJARConf = project.configurations.create("assertsAgentJAR") {
 	    isVisible = false
@@ -102,73 +99,6 @@ open class ACPlugin : Plugin<Project>
 								     }
 								 })
 		      )
-	}
-    }
-
-    /**
-     * Applies dependency management plugins with hardcoded versions.
-     * This is optional functionality - if plugins can't be resolved, the main plugin will still work.
-     */
-    private fun applyDependencyManagementPlugins(project: Project)
-    {
-	try
-	{
-	    // Create a configuration to hold the plugin dependencies
-	    val pluginConf = project.configurations.create("dependencyManagementPlugins") {
-		isVisible = false
-		isCanBeConsumed = false
-		isCanBeResolved = true
-		description = "Dependency management plugins for asserts-counter-plugin"
-	    }
-
-	    // Add hardcoded plugin dependencies with correct coordinates
-	    project.dependencies.add(pluginConf.name,
-				     "com.github.ben-manes.versions:com.github.ben-manes.versions.gradle.plugin:0.52.0")
-
-	    project.dependencies.add(
-		pluginConf.name,
-		"se.patrikerdes.use-latest-versions:se.patrikerdes.use-latest-versions.gradle.plugin:0.2.18")
-
-	    // Explicitly resolve the configuration to ensure dependencies are available
-	    project.logger.info("Resolving dependency management plugins...")
-	    try
-	    {
-		pluginConf.resolve()
-		project.logger.info("Successfully resolved dependency management plugins")
-	    }
-	    catch (e: Exception)
-	    {
-		project.logger.warn(
-		    "Failed to resolve dependency management plugins. Reason: ${e.message}\n" +
-		    "Stacktrace: ${e.stackTraceToString()}")
-		throw e // Rethrow to catch in outer block
-	    }
-
-	    // Apply the plugins safely
-	    project.logger.info("Applying com.github.ben-manes.versions plugin...")
-	    project.pluginManager.apply("com.github.ben-manes.versions")
-	    project.logger.info("Successfully applied com.github.ben-manes.versions plugin")
-
-	    // Apply use-latest-versions plugin only if gradle-versions-plugin was applied
-	    project.pluginManager.withPlugin("com.github.ben-manes.versions") {
-		project.logger.info("Applying se.patrikerdes.use-latest-versions plugin...")
-		project.pluginManager.apply("se.patrikerdes.use-latest-versions")
-		project.logger.info("Successfully applied se.patrikerdes.use-latest-versions plugin")
-
-		// Verify task existence
-		project.tasks.findByName("useLatestVersions")?.let {
-		    project.logger.info("Task 'useLatestVersions' is available")
-		}
-		?: project.logger.warn("Task 'useLatestVersions' not found after applying plugin")
-	    }
-	}
-	catch (e: Exception)
-	{
-	    // Log detailed warning but don't fail - these plugins are optional
-	    project.logger.warn(
-		"Warning: Could not apply optional dependency management plugins. " +
-		"The asserts-counter plugin will still work normally. " +
-		"Reason: ${e.message}\n" + "Stacktrace: ${e.stackTraceToString()}")
 	}
     }
 }

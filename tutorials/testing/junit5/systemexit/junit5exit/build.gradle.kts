@@ -1,11 +1,10 @@
 plugins {
     java
-    id("asserts-counter-plugin") version "1.0.24-SNAPSHOT"
+    id("asserts-counter-plugin") version "1.0.27-SNAPSHOT"
 }
 
 group = "com.example"
 version = "1.0-SNAPSHOT"
-
 
 java {
     toolchain {
