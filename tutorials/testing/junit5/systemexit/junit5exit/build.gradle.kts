@@ -12,6 +12,14 @@ java {
     }
 }
 
+sourceSets {
+    main {
+	resources {
+	    srcDir("src/main/res")
+	}
+    }
+}
+
 repositories {
     mavenCentral()
     maven {

@@ -1,3 +1,4 @@
+rootProject.name = "junit5exit"
 pluginManagement {
     repositories {
 	maven {
