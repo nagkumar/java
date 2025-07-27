@@ -5,8 +5,12 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.TestResult
+import org.gradle.kotlin.dsl.KotlinClosure2
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
+import java.io.File
 
 /**
  * A Gradle plugin that automatically instruments the `test` task to count
@@ -50,7 +54,7 @@ open class ACPlugin : Plugin<Project>
 	}
 
 	// 5. Configure all tasks of type `Test` to use the agent and be finalized by the report task.
-	project.tasks.withType<Test> {
+	project.tasks.withType<Test>().configureEach {
 	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
 	    doFirst {
 		//agentJARConf.files.forEach { file ->
@@ -78,6 +82,34 @@ open class ACPlugin : Plugin<Project>
 	    // This is the key for automation: automatically hook the report task
 	    // to run after this test task completes, regardless of success or failure.
 	    finalizedBy(printReportTask)
+
+	    // Add afterSuite to print test summary and environment details
+	    afterSuite(
+		KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+								     if (desc.parent == null)
+								     {
+									 println("\n🔧 Java (used by Gradle): ${
+									     System.getProperty("java.runtime.version")
+									 }")
+									 println("🧠 Java VM: ${
+									     System.getProperty("java.vm.name")
+									 } (${System.getProperty("java.vm.version")})")
+									 println(
+									     "🛠 Gradle Version: ${project.gradle.gradleVersion}\n\n")
+
+									 println("🔍 Test Summary:")
+									 println(
+									     " - ${result.testCount} tests executed")
+									 println(
+									     " - ${result.successfulTestCount} succeeded")
+									 println(" - ${result.failedTestCount} failed")
+									 println(
+									     " - ${result.skippedTestCount} skipped")
+									 println(
+									     "\nTest Report: file:///" + reports.html.entryPoint.absolutePath.replace(
+										 File.separatorChar, '/'))
+								     }
+								 }))
 	}
     }
 }
