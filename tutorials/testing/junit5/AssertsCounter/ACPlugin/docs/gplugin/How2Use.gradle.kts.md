@@ -38,7 +38,33 @@ tasks.test {
 
 //java -javaagent:<pathto local>assert-counter-agent-xxx.jar -jar application-with-tests.jar
 ```
+tasks.withType<Test>().configureEach {
+afterSuite(
+KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+if (desc.parent == null)
+{
+println("\n🔧 Java (used by Gradle): ${
+System.getProperty("java.runtime.version")
+}")
+println("🧠 Java VM: ${
+System.getProperty("java.vm.name")
+} (${System.getProperty("java.vm.version")})")
+println(
+"🛠 Gradle Version: ${gradle.gradleVersion}\n\n")
 
+								 println("🔍 Test Summary:")
+								 println(" - ${result.testCount} tests executed")
+								 println(
+								     " - ${result.successfulTestCount} succeeded")
+								 println(" - ${result.failedTestCount} failed")
+								 println(" - ${result.skippedTestCount} skipped")
+								 println(
+								     "\nTest Report: file:///" + reports.html.entryPoint.absolutePath.replace(
+									 File.separatorChar, '/'))
+							     }
+							 }))
+}
+-------------
 By default, it displays top summary without details like this
 
 ```text

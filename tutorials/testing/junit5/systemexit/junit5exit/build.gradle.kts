@@ -33,13 +33,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-    jvmArgumentProviders.add(CommandLineArgumentProvider {
-	var dd = configurations.testRuntimeClasspath.get().files.find {
-	    it.name.contains("junit5-system-exit")
-	}
-	listOf("-javaagent:${dd}")
-    })
-
     jvmArgs(
 	"--add-opens", "java.base/java.lang=ALL-UNNAMED",
 	"--add-opens", "java.base/java.io=ALL-UNNAMED")
