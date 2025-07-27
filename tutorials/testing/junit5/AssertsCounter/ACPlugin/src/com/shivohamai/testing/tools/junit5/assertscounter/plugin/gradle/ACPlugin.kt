@@ -1,5 +1,6 @@
 package com.shivohamai.testing.tools.junit5.assertscounter.plugin.gradle
 
+import com.example.mypls.MyPlsPlugin
 import com.shivohamai.testing.tools.junit5.assertscounter.agent.ACInterceptor
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -21,11 +22,7 @@ open class ACPlugin : Plugin<Project>
 {
     override fun apply(project: Project)
     {
-	// Configure repositories at the project level for all dependency resolutions
-	project.repositories {
-	    gradlePluginPortal()
-	    mavenCentral()
-	}
+	MyPlsPlugin().apply(project)
 
 	// 1. Create a private, resolvable configuration to hold the agent JAR
 	val agentJARConf = project.configurations.create("assertsAgentJAR") {

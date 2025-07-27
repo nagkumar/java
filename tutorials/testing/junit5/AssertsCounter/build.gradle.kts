@@ -4,7 +4,7 @@ plugins {
 }
 
 val projectGroup = "com.shivohamai.cc"
-val projectVersion = "1.0.28-SNAPSHOT"
+val projectVersion = "1.0.34-SNAPSHOT"
 
 val intJavaVer = 24
 
@@ -13,6 +13,7 @@ allprojects {
     version = projectVersion
 
     repositories {
+	gradlePluginPortal()
 	mavenCentral()
     }
     defaultTasks("clean", "build", "publish")
@@ -91,5 +92,18 @@ subprojects {
 	doLast {
 	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
 	}
+    }
+
+    tasks.withType<Tar> {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    tasks.withType<Zip> {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    // Also handle duplicates in JAR tasks if needed
+    tasks.withType<Jar> {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
