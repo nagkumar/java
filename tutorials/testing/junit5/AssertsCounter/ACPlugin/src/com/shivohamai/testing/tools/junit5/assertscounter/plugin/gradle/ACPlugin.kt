@@ -9,6 +9,7 @@ import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.TestResult
 import org.gradle.kotlin.dsl.KotlinClosure2
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 import java.io.File
 
@@ -20,7 +21,7 @@ open class ACPlugin : Plugin<Project>
 {
     override fun apply(aProject: Project)
     {
-	// Apply additional dependency management plugins
+	// Apply additional dependency management plugins (optional)
 	applyDependencyManagementPlugins(aProject)
 
 	// 1. Create a private, resolvable configuration to hold the agent JAR.
@@ -117,10 +118,45 @@ open class ACPlugin : Plugin<Project>
     }
 
     /**
-     * Applies dependency management plugins to keep dependencies up-to-date.
+     * Applies dependency management plugins with hardcoded versions.
+     * This is optional functionality - if plugins can't be resolved, the main plugin will still work.
      */
-    private fun applyDependencyManagementPlugins(aProject: Project) {
-	aProject.pluginManager.apply("com.github.ben-manes.versions")
-	aProject.pluginManager.apply("se.patrikerdes.use-latest-versions")
+    private fun applyDependencyManagementPlugins(project: Project)
+    {
+	try {
+	    // Ensure gradlePluginPortal() is available for resolving plugins
+	    project.repositories {
+		gradlePluginPortal()
+		mavenCentral()
+	    }
+
+	    // Create a configuration to hold the plugin dependencies
+	    val pluginConf = project.configurations.create("dependencyManagementPlugins") {
+		isVisible = false
+		isCanBeConsumed = false
+		isCanBeResolved = true
+		description = "Dependency management plugins for asserts-counter-plugin"
+	    }
+
+	    // Add hardcoded plugin dependencies with correct coordinates
+	    project.dependencies.add(pluginConf.name, "com.github.ben-manes:gradle-versions-plugin:0.52.0")
+	    //project.dependencies.add(pluginConf.name, "gradle.plugin.se.patrikerdes:gradle-use-latest-versions-plugin:0.2.18")
+
+	    // Resolve the plugins to ensure they are available
+	    pluginConf.resolve()
+
+	    // Apply the plugins
+	    project.pluginManager.apply("com.github.ben-manes.versions")
+	    project.pluginManager.apply("se.patrikerdes.use-latest-versions")
+
+	    project.logger.info("Successfully applied dependency management plugins")
+
+	} catch (e: Exception) {
+	    // Log warning but don't fail - these plugins are optional
+	    project.logger.warn(
+		"Warning: Could not apply optional dependency management plugins. " +
+		"The asserts-counter plugin will still work normally. " +
+		"Reason: ${e.message}")
+	}
     }
 }
