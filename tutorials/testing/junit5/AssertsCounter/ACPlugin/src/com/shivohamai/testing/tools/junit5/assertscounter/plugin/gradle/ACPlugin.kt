@@ -18,11 +18,14 @@ import java.io.File
  */
 open class ACPlugin : Plugin<Project>
 {
-    override fun apply(project: Project)
+    override fun apply(aProject: Project)
     {
+	// Apply additional dependency management plugins
+	applyDependencyManagementPlugins(aProject)
+
 	// 1. Create a private, resolvable configuration to hold the agent JAR.
 	//    This isolates the agent dependency from the user's build script.
-	val agentJARConf = project.configurations.create("assertsAgentJAR") {
+	val agentJARConf = aProject.configurations.create("assertsAgentJAR") {
 	    isVisible = false
 	    isCanBeConsumed = false
 	    isCanBeResolved = true
@@ -35,26 +38,26 @@ open class ACPlugin : Plugin<Project>
 	    ?: "still_unknown" // Fallback for local dev
 
 	val aca = "com.shivohamai.cc:asserts-counter-agent:$pluginVersion"
-	project.dependencies.add(agentJARConf.name,
-				 aca)
-	project.dependencies.add("implementation", aca)
+	aProject.dependencies.add(agentJARConf.name,
+				  aca)
+	aProject.dependencies.add("implementation", aca)
 
 	// 3. Register the extension so users can still call `assertsCounter.printReport()` manually if needed.
-	project.extensions.create<ACPlugin>("assertsCounter")
+	aProject.extensions.create<ACPlugin>("assertsCounter")
 
 	// 4. Register the task that will print the final report.
-	val printReportTask = project.tasks.register("printAssertsReport") {
+	val printReportTask = aProject.tasks.register("printAssertsReport") {
 	    group = "Verification"
 	    description = "Prints the report from the Asserts Counter Agent."
 	    doLast {
 		ACInterceptor.printReport()
 	    }
 	    // Ensure this task always runs after any test execution it's attached to.
-	    mustRunAfter(project.tasks.withType<Test>())
+	    mustRunAfter(aProject.tasks.withType<Test>())
 	}
 
 	// 5. Configure all tasks of type `Test` to use the agent and be finalized by the report task.
-	project.tasks.withType<Test>().configureEach {
+	aProject.tasks.withType<Test>().configureEach {
 	    // Use `doFirst` to resolve the agent JAR path just before the task executes.
 	    doFirst {
 		//agentJARConf.files.forEach { file ->
@@ -95,7 +98,7 @@ open class ACPlugin : Plugin<Project>
 									     System.getProperty("java.vm.name")
 									 } (${System.getProperty("java.vm.version")})")
 									 println(
-									     "🛠 Gradle Version: ${project.gradle.gradleVersion}\n\n")
+									     "🛠 Gradle Version: ${aProject.gradle.gradleVersion}\n\n")
 
 									 println("🔍 Test Summary:")
 									 println(
@@ -111,5 +114,13 @@ open class ACPlugin : Plugin<Project>
 								     }
 								 }))
 	}
+    }
+
+    /**
+     * Applies dependency management plugins to keep dependencies up-to-date.
+     */
+    private fun applyDependencyManagementPlugins(aProject: Project) {
+	aProject.pluginManager.apply("com.github.ben-manes.versions")
+	aProject.pluginManager.apply("se.patrikerdes.use-latest-versions")
     }
 }
