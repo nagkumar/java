@@ -86,8 +86,7 @@ open class ACPlugin : Plugin<Project>
 											File.separatorChar, '/')
 										}")
 									    }
-									})
-		      )
+									}))
 	}
     }
 }
