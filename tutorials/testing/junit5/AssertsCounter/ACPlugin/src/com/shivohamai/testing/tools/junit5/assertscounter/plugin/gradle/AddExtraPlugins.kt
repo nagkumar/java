@@ -5,7 +5,6 @@ import org.gradle.api.Project
 
 class AddExtraPlugins : Plugin<Project>
 {
-
     companion object
     {
 	const val VERSIONS_PLUGIN_VERSION = "0.52.0"
