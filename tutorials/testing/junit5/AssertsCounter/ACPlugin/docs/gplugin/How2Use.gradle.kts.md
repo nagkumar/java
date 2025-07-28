@@ -38,6 +38,7 @@ tasks.test {
 
 //java -javaagent:<pathto local>assert-counter-agent-xxx.jar -jar application-with-tests.jar
 ```
+
 tasks.withType<Test>().configureEach {
 afterSuite(
 KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
@@ -63,6 +64,7 @@ println(
 									 File.separatorChar, '/'))
 							     }
 							 }))
+
 }
 -------------
 By default, it displays top summary without details like this
