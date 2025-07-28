@@ -4,14 +4,14 @@ plugins {
     id("net.saliman.properties") version "1.6.0"
 }
 
-val projectGroup: String = project.properties["prjGroup"] as String
-val projectVersion: String = project.properties["prjVer"] as String
-val projectJavaVersion: Int = project.properties["prjJavaVer"]?.toString()?.toIntOrNull() ?: 8
+val prjGroup: String = project.properties["prj.group"] as String
+val prjVer: String = project.properties["prj.ver"] as String
+val prjJDKVer: Int = project.properties["prj.jdkVer"]?.toString()?.toIntOrNull() ?: 8
 
 allprojects {
-    version = projectVersion
-    group = projectGroup
-
+    version = prjVer
+    group = prjGroup
+    
     repositories {
 	gradlePluginPortal()
 	mavenCentral()
@@ -25,7 +25,7 @@ subprojects {
 
     java {
 	toolchain {
-	    languageVersion.set(JavaLanguageVersion.of(projectJavaVersion))
+	    languageVersion.set(JavaLanguageVersion.of(prjJDKVer))
 	}
     }
 
@@ -49,8 +49,8 @@ subprojects {
     }
 
     tasks.withType<JavaCompile>().configureEach {
-	sourceCompatibility = projectJavaVersion.toString()
-	targetCompatibility = projectJavaVersion.toString()
+	sourceCompatibility = prjJDKVer.toString()
+	targetCompatibility = prjJDKVer.toString()
     }
 
 
