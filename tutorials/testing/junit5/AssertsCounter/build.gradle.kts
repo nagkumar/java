@@ -5,12 +5,14 @@ plugins {
 
 val prjGroup: String = project.properties["prj.group"] as String
 val prjVer: String = project.properties["prj.ver"] as String
-val prjJDKVer: Int = project.properties["prj.jdkVer"]?.toString()?.toIntOrNull() ?: 8
+val prjJDKVer: Int =
+    project.properties["prj.jdkVer"]?.toString()?.toIntOrNull()
+    ?: 8
 
 allprojects {
     version = prjVer
     group = prjGroup
-    
+
     repositories {
 	maven {
 	    name = "GitHubPackages"
@@ -96,8 +98,6 @@ subprojects {
 	    }
 	}
     }
-
-
 
     tasks.withType<Test>().configureEach {
 	maxParallelForks = 1 // Only one test fork
