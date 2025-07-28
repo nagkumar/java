@@ -1,6 +1,5 @@
 plugins {
     id("java")
-
     id("asserts-counter-plugin") version "latest.integration"
 }
 
