@@ -1,16 +1,16 @@
 plugins {
     java
     `maven-publish`
+    id("net.saliman.properties") version "1.6.0"
 }
 
-val projectGroup = "com.shivohamai.cc"
-val projectVersion = "1.0.38-SNAPSHOT"
-
-val intJavaVer = 24
+val projectGroup: String = project.properties["prjGroup"] as String
+val projectVersion: String = project.properties["prjVer"] as String
+val projectJavaVersion: Int = project.properties["prjJavaVer"]?.toString()?.toIntOrNull() ?: 8
 
 allprojects {
-    group = projectGroup
     version = projectVersion
+    group = projectGroup
 
     repositories {
 	gradlePluginPortal()
@@ -25,7 +25,7 @@ subprojects {
 
     java {
 	toolchain {
-	    languageVersion.set(JavaLanguageVersion.of(intJavaVer))
+	    languageVersion.set(JavaLanguageVersion.of(projectJavaVersion))
 	}
     }
 
@@ -49,8 +49,8 @@ subprojects {
     }
 
     tasks.withType<JavaCompile>().configureEach {
-	sourceCompatibility = intJavaVer.toString()
-	targetCompatibility = intJavaVer.toString()
+	sourceCompatibility = projectJavaVersion.toString()
+	targetCompatibility = projectJavaVersion.toString()
     }
 
 
