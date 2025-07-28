@@ -79,6 +79,13 @@ subprojects {
 	}
     }
 
+    tasks.named("publish") {
+	doLast {
+	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
+	}
+	outputs.upToDateWhen { false }
+    }
+
     tasks.withType<PublishToMavenRepository>().configureEach {
 	doFirst {
 	    println("\nPublishing to GitHub Packages...")
@@ -91,12 +98,7 @@ subprojects {
 	}
     }
 
-    tasks.named("publish") {
-	doLast {
-	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
-	}
-	outputs.upToDateWhen { false }
-    }
+
 
     tasks.withType<Test>().configureEach {
 	maxParallelForks = 1 // Only one test fork
