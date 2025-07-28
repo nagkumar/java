@@ -1,7 +1,6 @@
 plugins {
     java
     `maven-publish`
-    id("net.saliman.properties") version "1.6.0"
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
