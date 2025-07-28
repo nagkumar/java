@@ -3,8 +3,10 @@ gradle --rerun-tasks test
 gradle --rerun-tasks clean jar test
 gradle publish
 gradle --rerun-tasks clean build
+gradle --refresh-dependencies
 gradle cleanBuildCache
+gradle cleanDependencyCache
 gradle --rerun-tasks clean test : this would fail because jar file of agent does not exist
-
+gradle --rerun-tasks
 git config -l
 git config --global user.name nagkumar
