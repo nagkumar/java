@@ -46,7 +46,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter")
     implementation("org.junit.platform:junit-platform-launcher")
     implementation("com.github.stefanbirkner:system-lambda:1.2.1")
-    implementation("io.github.hakky54:logcaptor:2.11.0")
+    implementation("io.github.hakky54:logcaptor:2.12.0")
 }
 
 tasks.test {

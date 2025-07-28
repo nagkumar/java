@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestSInputReader
+public final class TestSInputReader
 {
     private static final InputStream originalSystemIn = System.in; // Store original System.in
 
