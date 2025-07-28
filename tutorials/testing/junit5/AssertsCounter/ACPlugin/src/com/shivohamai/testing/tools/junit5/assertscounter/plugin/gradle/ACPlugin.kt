@@ -41,6 +41,11 @@ open class ACPlugin : Plugin<Project>
 	// 4. Configure all tasks of type `Test` to use the agent and be finalized by the report task
 	aProject.tasks.withType<Test>().configureEach {
 	    doFirst {
+		val launcher = javaLauncher.get()
+		println("\n🔧 Test JVM toolchain path: ${launcher.metadata.installationPath}")
+		println("🧠 Test JVM toolchain vendor: ${launcher.metadata.vendor}")
+		println("🧠 Java version in toolchain: ${launcher.metadata.languageVersion.asInt()}\n\n")
+
 		val agentJarFile = lAgentJARConf.files.singleOrNull {
 		    it.name.contains("asserts-counter-agent") && it.extension == "jar"
 		}
@@ -53,32 +58,36 @@ open class ACPlugin : Plugin<Project>
 	    }
 
 	    //5. Add afterSuite to print test summary and environment details
-	    afterSuite(
-		KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
-								     if (desc.parent == null)
-								     {
-									 println("\n🔧 Java (used by Gradle): ${
-									     System.getProperty("java.runtime.version")
-									 }")
-									 println("🧠 Java VM: ${
-									     System.getProperty("java.vm.name")
-									 } (${System.getProperty("java.vm.version")})")
-									 println(
-									     "🛠 Gradle Version: ${aProject.gradle.gradleVersion}\n")
-									 println("🔍 Test Summary:")
-									 println(
-									     " - ${result.testCount} tests executed")
-									 println(
-									     " - ${result.successfulTestCount} succeeded")
-									 println(" - ${result.failedTestCount} failed")
-									 println(
-									     " - ${result.skippedTestCount} skipped")
-									 println("\nTest Report: file:///${
-									     reports.html.entryPoint.absolutePath.replace(
-										 File.separatorChar, '/')
-									 }")
-								     }
-								 })
+	    afterSuite(KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+									    if (desc.parent == null)
+									    {
+										println("\n🔧 Java (used by Gradle): ${
+										    System.getProperty(
+											"java.runtime.version")
+										}")
+										println("🧠 Java VM: ${
+										    System.getProperty("java.vm.name")
+										} (${
+										    System.getProperty(
+											"java.vm.version")
+										})")
+										println(
+										    "🛠 Gradle Version: ${aProject.gradle.gradleVersion}\n")
+										println("🔍 Test Summary:")
+										println(
+										    " - ${result.testCount} tests executed")
+										println(
+										    " - ${result.successfulTestCount} succeeded")
+										println(
+										    " - ${result.failedTestCount} failed")
+										println(
+										    " - ${result.skippedTestCount} skipped")
+										println("\nTest Report: file:///${
+										    reports.html.entryPoint.absolutePath.replace(
+											File.separatorChar, '/')
+										}")
+									    }
+									})
 		      )
 	}
     }
