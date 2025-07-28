@@ -46,14 +46,14 @@ open class ACPlugin : Plugin<Project>
 		println("🧠 Test JVM toolchain vendor: ${launcher.metadata.vendor}")
 		println("🧠 Java version in toolchain: ${launcher.metadata.languageVersion.asInt()}\n\n")
 
-		val agentJarFile = lAgentJARConf.files.singleOrNull {
+		val bAgentJarFile = lAgentJARConf.files.singleOrNull {
 		    it.name.contains("asserts-counter-agent") && it.extension == "jar"
 		}
-				   ?: throw GradleException(
+				    ?: throw GradleException(
 				       "Could not find a JAR matching asserts-counter-agent in configuration 'assertsAgentJAR'"
 							   )
 		jvmArgumentProviders.add {
-		    listOf("-javaagent:${agentJarFile.absolutePath}")
+		    listOf("-javaagent:${bAgentJarFile.absolutePath}")
 		}
 	    }
 
