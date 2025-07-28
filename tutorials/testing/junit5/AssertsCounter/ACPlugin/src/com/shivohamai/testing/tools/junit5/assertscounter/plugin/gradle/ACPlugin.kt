@@ -50,8 +50,7 @@ open class ACPlugin : Plugin<Project>
 		    it.name.contains("asserts-counter-agent") && it.extension == "jar"
 		}
 				    ?: throw GradleException(
-				       "Could not find a JAR matching asserts-counter-agent in configuration 'assertsAgentJAR'"
-							   )
+					"Could not find a JAR matching asserts-counter-agent in configuration 'assertsAgentJAR'")
 		jvmArgumentProviders.add {
 		    listOf("-javaagent:${bAgentJarFile.absolutePath}")
 		}
