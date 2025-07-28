@@ -1,5 +1,8 @@
 @file:Suppress("SpellCheckingInspection")
 
+plugins {
+}
+
 dependencies {
     implementation("com.typesafe:config:1.4.4")
     implementation("net.bytebuddy:byte-buddy:1.17.6")

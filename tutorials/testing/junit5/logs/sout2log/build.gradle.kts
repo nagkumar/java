@@ -1,7 +1,7 @@
 plugins {
     id("java")
 
-    id("asserts-counter-plugin") version "1.0.4-SNAPSHOT"
+    id("asserts-counter-plugin") version "1.0.5-SNAPSHOT"
 }
 
 group = "com.shivoham.sys2log"
