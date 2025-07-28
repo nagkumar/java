@@ -53,11 +53,6 @@ subprojects {
 	targetCompatibility = prjJDKVer.toString()
     }
 
-
-    tasks.named("publish") {
-	outputs.upToDateWhen { false }
-    }
-
     publishing {
 	repositories {
 	    maven {
@@ -92,6 +87,14 @@ subprojects {
 	doLast {
 	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
 	}
+	outputs.upToDateWhen { false }
+    }
+
+    tasks.withType<Test>().configureEach {
+	maxParallelForks = 1 // Only one test fork
+	systemProperty("junit.jupiter.execution.parallel.enabled", "false") // Disable JUnit 5 parallelism
+	systemProperty("junit.jupiter.execution.parallel.mode.default", "same_thread")
+	systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "same_thread")
     }
 
     tasks.withType<Tar> {
