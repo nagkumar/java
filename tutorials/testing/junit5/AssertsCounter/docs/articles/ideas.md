@@ -4,3 +4,5 @@
 4. make gradle.properties compulsory for every project a way to take confifurable options for build
 5. make default tasks in plugin ac
 6. How to handle app.properties away from gradle.properties as gradle.properties may be configuration of gradle build don't mix
+
+https://medium.com/@nagendra.raja/counting-asserts-in-junit-tests-what-started-as-a-script-became-a-plugin-64ac682e92b0
