@@ -1,6 +1,6 @@
 plugins {
     java
-    id("asserts-counter-plugin") version "1.0.4-SNAPSHOT"
+    id("asserts-counter-plugin") version "+"
 }
 
 group = "com.example"
