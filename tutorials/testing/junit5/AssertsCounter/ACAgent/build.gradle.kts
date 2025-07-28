@@ -1,10 +1,5 @@
 @file:Suppress("SpellCheckingInspection")
 
-plugins {
-    id("com.github.ben-manes.versions") version ("0.52.0")
-    id("se.patrikerdes.use-latest-versions") version ("0.2.18")
-}
-
 dependencies {
     implementation("com.typesafe:config:1.4.4")
     implementation("net.bytebuddy:byte-buddy:1.17.6")
