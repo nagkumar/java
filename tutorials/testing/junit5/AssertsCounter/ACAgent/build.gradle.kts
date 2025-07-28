@@ -20,12 +20,6 @@ dependencies {
 }
 
 tasks.test {
-    doFirst {
-	val launcher = javaLauncher.get()
-	println("\n🔧 Test JVM toolchain path: ${launcher.metadata.installationPath}")
-	println("🧠 Test JVM toolchain vendor: ${launcher.metadata.vendor}")
-	println("🧠 Java version in toolchain: ${launcher.metadata.languageVersion.asInt()}\n\n")
-    }
     useJUnitPlatform()
     val agentJarPath = tasks.jar.get().archiveFile.get().asFile.absolutePath
     jvmArgs("-javaagent:$agentJarPath")
@@ -38,21 +32,3 @@ tasks.jar {
 	attributes["Can-Retransform-Classes"] = "true"
     }
 }
-
-tasks.withType<Test>().configureEach {
-    afterSuite(KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
-								    if (desc.parent == null)
-								    {
-									println("🔍 Test Summary:")
-									println(" - ${result.testCount} tests executed")
-									println(
-									    " - ${result.successfulTestCount} succeeded")
-									println(" - ${result.failedTestCount} failed")
-									println(" - ${result.skippedTestCount} skipped")
-									println(
-									    "\nTest Report: file:///" + reports.html.entryPoint.absolutePath.replace(
-										File.separatorChar, '/'))
-								    }
-								}))
-}
-
