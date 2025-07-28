@@ -11,14 +11,14 @@ class AddExtraPlugins : Plugin<Project>
 	const val USE_LATEST_VERSIONS_PLUGIN_VERSION = "0.2.18"
     }
 
-    override fun apply(project: Project)
+    override fun apply(aProject: Project)
     {
 	// Use the plugins block approach - this requires the plugins to be available
 	// in the plugin's own classpath, not added dynamically
-	project.pluginManager.apply("com.github.ben-manes.versions")
-	project.pluginManager.apply("se.patrikerdes.use-latest-versions")
+	aProject.pluginManager.apply("com.github.ben-manes.versions")
+	aProject.pluginManager.apply("se.patrikerdes.use-latest-versions")
 
-	project.afterEvaluate {
+	aProject.afterEvaluate {
 	    println("MyPls plugin applied successfully with hardcoded versions:")
 	    println("- ben-manes.versions: $VERSIONS_PLUGIN_VERSION")
 	    println("- use-latest-versions: $USE_LATEST_VERSIONS_PLUGIN_VERSION")
