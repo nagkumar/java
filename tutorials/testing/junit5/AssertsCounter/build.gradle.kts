@@ -20,7 +20,8 @@ versioning {
 allprojects {
     afterEvaluate {
 	group = prjGroup
-	version = (rootProject.extensions.getByName("versioning") as VersioningExtension).name
+	var verE = rootProject.extensions.getByName("versioning") as VersioningExtension
+	version = "${verE.major}.${verE.minor}.${verE.build}-${verE.preRelease}"
     }
 
     repositories {
