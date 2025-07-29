@@ -7,7 +7,6 @@ plugins {
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
-val prjVer: String = project.properties["prj.ver"] as String
 val prjJDKVer: Int =
     project.properties["prj.jdkVer"]?.toString()?.toIntOrNull()
     ?: 8
