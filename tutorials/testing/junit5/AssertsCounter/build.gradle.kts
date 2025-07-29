@@ -2,6 +2,7 @@ import fix.eu.davidea.gradle.VersioningExtension
 
 plugins {
     java
+    `java-library`
     `maven-publish`
     id ("fix.eu.davidea.grabver") version "2.0.4"
 }
