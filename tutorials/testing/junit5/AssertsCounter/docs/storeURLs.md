@@ -4,3 +4,6 @@
    https://plugins.gradle.org/m2/com/github/ben-manes/versions/com.github.ben-manes.versions.gradle.plugin/0.52.0/com.github.ben-manes.versions.gradle.plugin-0.52.0.pom
 
 https://github.com/nagkumar/java/packages/2593398/versions
+
+curl -s https://plugins.gradle.org/api/gradle/com.benrhine.semantic-versioning-with-build-number
+
