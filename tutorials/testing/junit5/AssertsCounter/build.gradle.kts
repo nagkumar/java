@@ -1,6 +1,9 @@
+import eu.davidea.gradle.VersioningExtension
+
 plugins {
     java
     `maven-publish`
+    id ("eu.davidea.grabver") version "2.0.3"
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
@@ -9,8 +12,24 @@ val prjJDKVer: Int =
     project.properties["prj.jdkVer"]?.toString()?.toIntOrNull()
     ?: 8
 
+versioning {
+    major=1
+    minor=0
+    patch=17
+    preRelease= "SNAPSHOT"
+}
+
+lateinit var pVersioning: VersioningExtension
+
+afterEvaluate {
+    pVersioning = extensions.getByName("versioning") as VersioningExtension
+    println(versioning.name);
+}
+
 allprojects {
-    version = prjVer
+    afterEvaluate {
+	version = pVersioning.name
+    }
     group = prjGroup
 
     repositories {
