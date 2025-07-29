@@ -13,24 +13,16 @@ val prjJDKVer: Int =
     ?: 8
 
 versioning {
-    major=1
-    minor=0
-    patch=17
     preRelease= "SNAPSHOT"
-}
-
-lateinit var pVersioning: VersioningExtension
-
-afterEvaluate {
-    pVersioning = extensions.getByName("versioning") as VersioningExtension
-    println(versioning.name);
+    incrementOn = "jar"
+    saveOn = "jar"
 }
 
 allprojects {
     afterEvaluate {
-	version = pVersioning.name
+	group = prjGroup
+	version = (rootProject.extensions.getByName("versioning") as VersioningExtension).name
     }
-    group = prjGroup
 
     repositories {
 	maven {
