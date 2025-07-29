@@ -10,3 +10,5 @@ gradle --rerun-tasks clean test : this would fail because jar file of agent does
 gradle --rerun-tasks
 git config -l
 git config --global user.name nagkumar
+
+gradle publishToMavenLocal

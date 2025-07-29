@@ -1,9 +1,9 @@
-import eu.davidea.gradle.VersioningExtension
+import fix.eu.davidea.gradle.VersioningExtension
 
 plugins {
     java
     `maven-publish`
-    id ("eu.davidea.grabver") version "2.0.3"
+    id ("fix.eu.davidea.grabver") version "2.0.4"
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
@@ -13,7 +13,6 @@ val prjJDKVer: Int =
 
 versioning {
     preRelease= "SNAPSHOT"
-    incrementOn = "publish"
     saveOn = "publish"
 }
 
