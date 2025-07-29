@@ -1,8 +1,6 @@
-import com.benrhine.plugins.v1.SemanticVersioningWithBuildNumberPluginExtension;
 plugins {
     java
     `maven-publish`
-    id("com.benrhine.semantic-versioning-with-build-number-kotlin") version "0.0.1"
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
@@ -28,15 +26,6 @@ allprojects {
 	mavenCentral()
     }
     defaultTasks("clean", "build", "publish")
-}
-
-configure<SemanticVersioningWithBuildNumberPluginExtension> {
-    artifactType = "jar"
-    ciBuildNumberEnvVarName = "BUILD_NUMBER"
-    customVersionPropertiesPath = "version.properties"
-    isIncludeBuildNumber = true
-    isIncludeReleaseTag = false
-    isRemoteBuild = true
 }
 
 subprojects {
