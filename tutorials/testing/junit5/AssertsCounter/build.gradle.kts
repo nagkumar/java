@@ -13,8 +13,8 @@ val prjJDKVer: Int =
 
 versioning {
     preRelease= "SNAPSHOT"
-    incrementOn = "jar"
-    saveOn = "jar"
+    incrementOn = "publish"
+    saveOn = "publish"
 }
 
 allprojects {
