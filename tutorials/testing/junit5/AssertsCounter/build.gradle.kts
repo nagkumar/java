@@ -27,6 +27,7 @@ allprojects {
 	githubPackages()
 	gradlePluginPortal()
 	mavenCentral()
+	mavenLocal()
     }
     defaultTasks("clean", "build", "publish")
 }
@@ -34,13 +35,6 @@ allprojects {
 subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
-
-    repositories {
-	githubPackages() // ✅ applies the custom repo to each subproject
-	gradlePluginPortal()
-	mavenCentral()
-	mavenLocal()
-    }
 
     java {
 	toolchain {
