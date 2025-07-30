@@ -16,8 +16,14 @@ fun ACPlugin.prepareAgentJARConf(
 
     // 2. Add the agent as a dependency to our private configuration
     val lPluginVersion = javaClass.`package`.implementationVersion
-    val acDependency = "com.shivohamai.cc:asserts-counter-agent:$lPluginVersion"
-    aProject.dependencies.add(lAgentJARConf.name, acDependency)
-    aProject.dependencies.add("implementation", acDependency)
+    val lDependencies = arrayOf(
+	"com.shivohamai.cc:asserts-counter-agent:$lPluginVersion",
+	"org.codehaus.groovy:groovy-all:3.0.25")
+
+    lDependencies.forEach { bDependency ->
+	aProject.dependencies.add(lAgentJARConf.name, bDependency)
+	aProject.dependencies.add("implementation", bDependency)
+    }
+
     return lAgentJARConf
 }
