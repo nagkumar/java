@@ -19,7 +19,7 @@ fun ACPlugin.prepareAgentJARConf(aProject: Project): Configuration
 	"com.shivohamai.cc:asserts-counter-agent:$lPluginVersion")
 
     lDependencies.forEach { bDependency ->
-	print("Using 'assert-count-agent' Version: $lPluginVersion")
+	println("Using 'assert-count-agent' Version: $lPluginVersion")
 	aProject.dependencies.add(lAgentJARConf.name, bDependency)
 	aProject.dependencies.add("implementation", bDependency)
     }
