@@ -1,9 +1,9 @@
-import fix.eu.davidea.gradle.VersioningExtension
+import eu.davidea.gradle.VersioningExtension
 
 plugins {
     `java-library`
     `maven-publish`
-    id("fix.eu.davidea.grabver") version "2.0.3"
+    id("eu.davidea.grabver") version "2.0.3"
 }
 
 val prjGroup: String = project.properties["prj.group"] as String
