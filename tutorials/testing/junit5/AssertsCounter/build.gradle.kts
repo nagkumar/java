@@ -116,17 +116,10 @@ subprojects {
 	systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "same_thread")
     }
 
-    tasks.withType<Tar> {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    tasks.withType<Zip> {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    // Also handle duplicates in JAR tasks if needed
-    tasks.withType<Jar> {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    listOf(Tar::class, Zip::class, Jar::class).forEach { taskType ->
+	tasks.withType(taskType.java) {
+	    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	}
     }
 }
 
