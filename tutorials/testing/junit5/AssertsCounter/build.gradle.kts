@@ -24,14 +24,7 @@ allprojects {
     }
 
     repositories {
-	maven {
-	    name = "GitHubPackages"
-	    url = uri("https://maven.pkg.github.com/nagkumar/java")
-	    credentials {
-		username = System.getenv("GITHUB_ACTOR")
-		password = System.getenv("GITHUB_TOKEN")
-	    }
-	}
+	githubPackages()
 	gradlePluginPortal()
 	mavenCentral()
     }
@@ -41,6 +34,13 @@ allprojects {
 subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
+
+    repositories {
+	githubPackages() // ✅ applies the custom repo to each subproject
+	gradlePluginPortal()
+	mavenCentral()
+	mavenLocal()
+    }
 
     java {
 	toolchain {
@@ -74,14 +74,7 @@ subprojects {
 
     publishing {
 	repositories {
-	    maven {
-		name = "GitHubPackages"
-		url = uri("https://maven.pkg.github.com/nagkumar/java")
-		credentials {
-		    username = System.getenv("GITHUB_ACTOR")
-		    password = System.getenv("GITHUB_TOKEN")
-		}
-	    }
+	    githubPackages()
 	}
 	publications {
 	    create<MavenPublication>("mavenJava") {
@@ -127,5 +120,17 @@ tasks.configureEach {
     if (name in listOf("build", "jar", "assemble", "classes"))
     {
 	enabled = false
+    }
+}
+
+fun RepositoryHandler.githubPackages()
+{
+    maven {
+	name = "GitHubPackages"
+	url = uri("https://maven.pkg.github.com/nagkumar/java")
+	credentials {
+	    username = System.getenv("GITHUB_ACTOR")
+	    password = System.getenv("GITHUB_TOKEN")
+	}
     }
 }
