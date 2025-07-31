@@ -12,3 +12,29 @@ maven plugin
 maven-publish plugin
 publish-plugin - gradle
 vanniktech
+
+
+I want to use com.vanniktech.maven.publish plugin to publish helloword gradle plugin to all 4 the repos
+
+1. Maven Central
+2. Sonatype Central Portal
+3. github packages
+4. jitpack
+
+can you write full hellow world gradle plugin that demos the power of using this com.vanniktech.maven.publish plugin to publish.
+
+make sure all the required infot publish come from group, id details of the gradle.kts script and from systemenvironment and/or gradle.properties.
+
+intent is to have this helloworld code and write the medium article there on..so first get solid and simple code that can publish any of the repo with developer giving the min needed details as properties and no additional .kts script blocks are needed using this com.vanniktech.maven.publish plugin
+
+
+Make sure it works with latest jdk 24 and gradle 8.14.1 and every framework is used is of the latest version i.e. junit 5 etc
+Also, jitpack git commits also should happen on its own when this jiobpack publish happens
+
+give me the final zip of the code
+make sure tag for jitpack is same as verstion variable value in gradle kotlin script
+
+make sure resources and properties file are also included in zip
+
+How to publish to google, azure, aws that also talked about
+
