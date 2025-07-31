@@ -1,7 +1,6 @@
 gradle --rerun-tasks clean jar test
 gradle --rerun-tasks test
 gradle --rerun-tasks clean jar test
-gradle publish
 gradle --rerun-tasks clean build
 gradle --refresh-dependencies
 gradle cleanBuildCache
@@ -11,4 +10,5 @@ gradle --rerun-tasks
 git config -l
 git config --global user.name nagkumar
 
+gradle publish
 gradle publishToMavenLocal
