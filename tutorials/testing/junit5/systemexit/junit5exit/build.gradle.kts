@@ -21,6 +21,7 @@ sourceSets {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
 	name = "GitHubPackages"

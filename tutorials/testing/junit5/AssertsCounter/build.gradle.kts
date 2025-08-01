@@ -73,6 +73,7 @@ subprojects {
     publishing {
 	repositories {
 	    githubPackages()
+	    mavenLocal()
 	}
 
 	publications {
