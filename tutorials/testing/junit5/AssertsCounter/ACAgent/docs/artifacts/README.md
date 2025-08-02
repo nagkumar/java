@@ -1,5 +1,4 @@
 ```
-
 repositories {
     maven {
         name = "GitHubPackages"
@@ -30,7 +29,6 @@ tasks.test {
   <artifactId>asserts-agent</artifactId>
   <version>1.0.0</version>
 </dependency>
-
 ```
 
 https://github.com/nagkumar/java/packages/2589016

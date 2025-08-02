@@ -1,4 +1,4 @@
-. Difference between properties in gradle.properties and settings.properties
+. Difference between properties in gradle.properties and settings.gradle.kts
 . significance of settings.properties in multi build environment - as the top root finding location for childern
 . id("net.saliman.properties") version "1.6.0" write about this plugin and make it default for every project through this plugin
 . make gradle.properties compulsory for every project a way to take configurable options for build
