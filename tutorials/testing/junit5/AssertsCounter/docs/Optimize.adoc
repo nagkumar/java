@@ -1,0 +1,1 @@
+. Currently, build takes 5m, the best way to optimise is have local LAN repo that gets replicated with respective repos once in a few hours or whenever access to that happens locally, that approach once in place have seen it takes just 34 seconds, that way most time of 5 min to build is network delays
