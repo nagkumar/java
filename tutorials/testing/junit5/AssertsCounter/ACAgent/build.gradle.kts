@@ -2,9 +2,8 @@
 
 dependencies {
     implementation("com.typesafe:config:1.4.4")
-    implementation("net.bytebuddy:byte-buddy:1.17.6")
-    implementation("net.bytebuddy:byte-buddy-agent:1.17.6")
-    implementation("org.ow2.asm:asm:9.8") //fix to bug https://github.com/tginsberg/junit5-system-exit/issues/34
+    implementation("net.bytebuddy:byte-buddy:1.17.7")
+    implementation("net.bytebuddy:byte-buddy-agent:1.17.7")
 
     testImplementation(platform("org.junit:junit-bom:6.0.0-M2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
