@@ -93,7 +93,9 @@ subprojects {
 
     tasks.withType<PublishToMavenRepository>().configureEach {
 	doFirst {
-	    println("\nPublishing to GitHub Packages...")
+	    val repo = repository
+	    println("\nPublishing to repository: ${repo.name ?: "unknown"}")
+	    println("Repository URL: ${repo.url}")
 	    publishing.publications.withType<MavenPublication>().forEach { pub ->
 		println("Publication: ${pub.name}")
 		pub.artifacts.forEach {
@@ -104,16 +106,20 @@ subprojects {
     }
 
     tasks.withType<Test>().configureEach {
-	maxParallelForks = 1 // Only one test fork
-	systemProperty("junit.jupiter.execution.parallel.enabled", "false") // Disable JUnit 5 parallelism
-	systemProperty("junit.jupiter.execution.parallel.mode.default", "same_thread")
-	systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "same_thread")
+	//maxParallelForks = 1 // Only one test fork
+	//systemProperty("junit.jupiter.execution.parallel.enabled", "false") // Disable JUnit 5 parallelism
+	//systemProperty("junit.jupiter.execution.parallel.mode.default", "same_thread")
+	//systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "same_thread")
     }
 
     listOf(Tar::class, Zip::class, Jar::class).forEach { taskType ->
 	tasks.withType(taskType.java) {
 	    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	}
+    }
+
+    dependencies {
+	implementation("com.github.michaelgantman:MgntUtils:1.7.0.2")
     }
 }
 
