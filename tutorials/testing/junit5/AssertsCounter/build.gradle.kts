@@ -86,7 +86,7 @@ subprojects {
 
     tasks.named("publish") {
 	doLast {
-	    println("View it at: https://github.com/nagkumar/java/packages/2589016")
+	    println("View it at: https://github.com/nagkumar/java/packages/")
 	}
 	outputs.upToDateWhen { false }
     }
