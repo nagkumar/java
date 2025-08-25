@@ -93,9 +93,8 @@ subprojects {
 
     tasks.withType<PublishToMavenRepository>().configureEach {
 	doFirst {
-	    val repo = repository
-	    println("\nPublishing to repository: ${repo.name ?: "unknown"}")
-	    println("Repository URL: ${repo.url}")
+	    println("\nPublishing to repository: ${repository.name ?: "unknown"}")
+	    println("Repository URL: ${repository.url}")
 	    publishing.publications.withType<MavenPublication>().forEach { pub ->
 		println("Publication: ${pub.name}")
 		pub.artifacts.forEach {
