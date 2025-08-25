@@ -12,7 +12,6 @@ open class ACPlugin : Plugin<Project>
     override fun apply(aProject: Project)
     {
 	AddJarsAutoUpdatePlugins().apply(aProject)
-	val lAgentJARConf = prepareAgentJARConf(aProject)
-	prepareTestTask(aProject, lAgentJARConf)
+	prepareTestTask(aProject, prepareAgentJARConf(aProject))
     }
 }

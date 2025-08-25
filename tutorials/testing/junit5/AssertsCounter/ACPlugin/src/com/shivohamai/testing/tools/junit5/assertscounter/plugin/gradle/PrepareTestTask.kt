@@ -7,7 +7,7 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.withType
 
 // 4. Configure all tasks of type `Test` to use the agent and be finalized by the report task
-fun prepareTestTask(aProject: Project, lAgentJARConf: Configuration)
+fun prepareTestTask(aProject: Project, aAgentJARConf: Configuration)
 {
     aProject.tasks.withType<Test>().configureEach {
 	doFirst {
@@ -16,7 +16,7 @@ fun prepareTestTask(aProject: Project, lAgentJARConf: Configuration)
 	    println("🧠 Test JVM toolchain vendor: ${launcher.metadata.vendor}")
 	    println("🧠 Java version in toolchain: ${launcher.metadata.languageVersion.asInt()}\n\n")
 
-	    val bAgentJarFile = lAgentJARConf.files.singleOrNull {
+	    val bAgentJarFile = aAgentJARConf.files.singleOrNull {
 		it.name.contains("asserts-counter-agent") && it.extension == "jar"
 	    }
 				?: throw GradleException(

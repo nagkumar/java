@@ -14,8 +14,7 @@ fun ACPlugin.prepareAgentJARConf(aProject: Project): Configuration
 
     // 2. Add the agent as a dependency to our private configuration
     val lPluginVersion = javaClass.`package`.implementationVersion
-    val lDependencies = arrayOf(
-	"com.shivohamai.cc:asserts-counter-agent:$lPluginVersion")
+    val lDependencies = arrayOf("com.shivohamai.cc:asserts-counter-agent:$lPluginVersion")
 
     lDependencies.forEach { bDependency ->
 	println("Using 'assert-count-agent' Version: $lPluginVersion")
