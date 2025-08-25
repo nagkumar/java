@@ -5,7 +5,7 @@ dependencies {
     implementation("net.bytebuddy:byte-buddy:1.17.7")
     implementation("net.bytebuddy:byte-buddy-agent:1.17.7")
 
-    testImplementation(platform("org.junit:junit-bom:6.0.0-M2"))
+    testImplementation(platform("org.junit:junit-bom:6.0.0-RC1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
 
