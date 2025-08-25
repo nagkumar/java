@@ -7,7 +7,6 @@ fun ACPlugin.prepareAgentJARConf(aProject: Project): Configuration
 {
     // 1. Create a private, resolvable configuration to hold the agent JAR
     val lAgentJARConf = aProject.configurations.create("assertsAgentJAR") {
-	isVisible = false
 	isCanBeConsumed = false
 	isCanBeResolved = true
 	description = "The asserts-counter agent JAR and its dependencies"
