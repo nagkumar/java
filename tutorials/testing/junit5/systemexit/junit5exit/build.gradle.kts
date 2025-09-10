@@ -36,7 +36,7 @@ repositories {
 dependencies {
     testImplementation("com.ginsberg:junit5-system-exit:2.0.2")
     testImplementation("org.ow2.asm:asm:9.8") //fix to bug https://github.com/tginsberg/junit5-system-exit/issues/34
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-M2")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-RC2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
