@@ -42,11 +42,11 @@ dependencies {
 
     //intellij does not support testImplementation for the test files within main folder, hence as work
     //around making the test jars part of main
-    implementation(platform("org.junit:junit-bom:6.0.0-RC2"))
+    implementation(platform("org.junit:junit-bom:6.0.0-RC3"))
     implementation("org.junit.jupiter:junit-jupiter")
     implementation("org.junit.platform:junit-platform-launcher")
     implementation("com.github.stefanbirkner:system-lambda:1.2.1")
-    implementation("io.github.hakky54:logcaptor:2.12.0")
+    implementation("io.github.hakky54:logcaptor:2.12.1")
 }
 
 tasks.test {
