@@ -118,7 +118,7 @@ subprojects {
     }
 
     dependencies {
-	implementation("com.github.michaelgantman:MgntUtils:1.7.0.2")
+	implementation("com.github.michaelgantman:MgntUtils:1.7.0.4")
     }
 }
 
